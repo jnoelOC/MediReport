@@ -1,47 +1,18 @@
-package com.medipatient.medipatient.model;
+package com.medireport.medireport.beans;
 
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Entity
-@Table(name = "patient")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="ID", unique=true, nullable=false)
+public class PatientBean {
     private Long id;
-
-    @Column(name="PRENOM", length=50)
     private String prenom;
-
-    @Column(name="NOM", length=50)
     private String nom;
-
-    @Column(name="DATENAISS")
     private LocalDate datenaiss;
-
-    @Column(name="GENRE")
     private Boolean genre;
-
-    @Column(name="ADRESSEPOSTALE", length=250)
     private String adressepostale;
-
-    @Column(name="NUMTEL", length=20)
     private String numtel;
 
-    public Patient() {
-    }
-
-    public Patient(Long id, String prenom, String nom, LocalDate datenaiss, Boolean genre, String adressepostale, String numtel) {
-        this.id = id;
-        this.prenom = prenom;
-        this.nom = nom;
-        this.datenaiss = datenaiss;
-        this.genre = genre;
-        this.adressepostale = adressepostale;
-        this.numtel = numtel;
+    public PatientBean() {
     }
 
     public Long getId() {
@@ -102,7 +73,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient{" +
+        return "PatientBean{" +
                 "id=" + id +
                 ", prenom='" + prenom + '\'' +
                 ", nom='" + nom + '\'' +
