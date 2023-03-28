@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+WELCOME in Patient party !!!
+<p th:number= "${patient.id}"></p>
+<p th:text= "${patient.prenom}"></p>
+<p th:text= "${patient.nom}"></p>
+<p th:date= "${patient.datenaiss}"></p>
+<p th:boolean= "${patient.genre}"></p>
+<p th:text= "${patient.adressepostale}"></p>
+<p th:text= "${patient.numtel}"></p>
+</body>
+</html>
