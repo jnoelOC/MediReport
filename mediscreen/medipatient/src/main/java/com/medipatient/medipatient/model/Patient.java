@@ -15,7 +15,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="ID", unique=true, nullable=false)
-    private Long id;
+    private Integer id;
 
     @Column(name="PRENOM", length=50)
     private String prenom;
@@ -38,7 +38,7 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(Long id, String prenom, String nom, LocalDate datenaiss, Boolean genre, String adressepostale, String numtel) {
+    public Patient(Integer id, String prenom, String nom, LocalDate datenaiss, Boolean genre, String adressepostale, String numtel) {
         this.id = id;
         this.prenom = prenom;
         this.nom = nom;
@@ -48,11 +48,11 @@ public class Patient {
         this.numtel = numtel;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

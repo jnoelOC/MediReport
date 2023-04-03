@@ -25,15 +25,15 @@ public class PatientController {
         return "patient/list";
     }
 
-    @GetMapping("/patient/{id}")
-    public String recupererUnPatient(Model model, @PathVariable int id) {
+    @GetMapping("/patient")
+    public String recupererUnPatient(Model model, @RequestParam int id) {
         PatientBean patient = patientsProxy.recupererUnPatient(id);
         model.addAttribute("patient", patient);
 
         return "patient";
     }
 
-    @PutMapping("/patient")
+    @PostMapping("/patient/add")
     public String ajouterUnPatient(Model model, @RequestBody PatientBean patient) {
         PatientBean patient1 = patientsProxy.ajouterUnPatient(patient);
 
@@ -43,8 +43,8 @@ public class PatientController {
         return "patient/list";
     }
 
-    @DeleteMapping("/patient/{id}")
-    public String effacerUnPatient(Model model, @PathVariable int id) {
+    @DeleteMapping("/patient/delete")
+    public String effacerUnPatient(Model model, @RequestParam int id) {
         patientsProxy.effacerUnPatient(id);
 
         List<PatientBean> patients =  patientsProxy.listerLesPatients();

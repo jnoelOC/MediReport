@@ -11,13 +11,13 @@ public interface MicroservicePatientsProxy {
     @GetMapping(value = "/patients")
     List<PatientBean> listerLesPatients();
 
-    @GetMapping( value = "/patient/{id}")
-    PatientBean recupererUnPatient(@PathVariable("id") Integer id);
+    @GetMapping( value = "/patient")
+    PatientBean recupererUnPatient(@RequestParam Integer id);
 
-    @PutMapping( value = "/patient")
+    @PostMapping( value = "/patient/add")
     PatientBean ajouterUnPatient(@RequestBody PatientBean patient);
 
-    @DeleteMapping( value = "/patient/{id}")
-    void effacerUnPatient(@PathVariable("id") Integer id);
+    @DeleteMapping( value = "/patient/delete")
+    void effacerUnPatient(@RequestParam Integer id);
 
 }
