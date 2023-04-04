@@ -1,0 +1,17 @@
+# Ignorer les fichiers de configuration de Maven qui ne sont pas nécessaires pour la construction de l'image
+**/target/
+**/src/main/docker/
+
+# Ignorer les fichiers de configuration de l'IDE Eclipse
+**/.classpath
+**/.project
+**/.settings/
+
+# Ignorer les fichiers de sauvegarde temporaires de l'IDE IntelliJ
+**/*.iml
+**/*.ipr
+**/*.iws
+**/*.idea
+
+# Ignorer les fichiers de sauvegarde de l'éditeur Vim
+**/*~

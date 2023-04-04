@@ -1,0 +1,76 @@
+version: '3'
+services:
+#  mediscreen:
+#    image: mediscreen
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - medireportui
+#      - medipatient
+
+  medireportui:
+    image: medireportui
+    container_name : medireportui_c
+    build:
+      context: .
+      dockerfile: ./medireportui/Dockerfile
+    ports:
+      - "9090:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - medipatient
+
+  medipatient:
+    image : medipatient
+    container_name : medipatient_c
+    build:
+      context: .
+      dockerfile: ./medipatient/Dockerfile
+#    build: .
+    ports:
+      - "9190:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - db
+    environment:
+      logging.level.org.springframework: INFO
+      spring.datasource.url: jdbc:mysql://db:3306/medipatient?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: root
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db:
+    image: mysql:8.0.32
+    container_name : mysql_c
+    restart: always
+    ports:
+      - "33006:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: medipatient
+    volumes:
+      - medipatientDB:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_c
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8082:80
+
+volumes:
+  medipatientDB:
