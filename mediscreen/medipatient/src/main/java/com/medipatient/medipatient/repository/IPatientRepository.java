@@ -16,6 +16,6 @@ public interface IPatientRepository extends JpaRepository<Patient, Integer> {
 
     void deleteById(Integer id);
 
-    Patient findByPrenom(String prenom);
+    Patient findByFirstname(String firstname);
 
 }

@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class PatientBean {
     private Long id;
-    private String prenom;
-    private String nom;
-    private LocalDate datenaiss;
-    private Boolean genre;
-    private String adressepostale;
-    private String numtel;
+    private String firstname;
+    private String lastname;
+    private LocalDate dob;
+    private Boolean sex;
+    private String address;
+    private String phone;
 
     public PatientBean() {
     }
@@ -23,64 +23,64 @@ public class PatientBean {
         this.id = id;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getNom() {
-        return nom;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public LocalDate getDatenaiss() {
-        return datenaiss;
+    public LocalDate getDob() {
+        return dob;
     }
 
-    public void setDatenaiss(LocalDate datenaiss) {
-        this.datenaiss = datenaiss;
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
-    public Boolean getGenre() {
-        return genre;
+    public Boolean getSex() {
+        return sex;
     }
 
-    public void setGenre(Boolean genre) {
-        this.genre = genre;
+    public void setSex(Boolean sex) {
+        this.sex = sex;
     }
 
-    public String getAdressepostale() {
-        return adressepostale;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdressepostale(String adressepostale) {
-        this.adressepostale = adressepostale;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getNumtel() {
-        return numtel;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumtel(String numtel) {
-        this.numtel = numtel;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
         return "PatientBean{" +
                 "id=" + id +
-                ", prenom='" + prenom + '\'' +
-                ", nom='" + nom + '\'' +
-                ", datenaiss=" + datenaiss +
-                ", genre=" + genre +
-                ", adressepostale='" + adressepostale + '\'' +
-                ", numtel='" + numtel + '\'' +
+                ", prenom='" + firstname + '\'' +
+                ", nom='" + lastname + '\'' +
+                ", datenaiss=" + dob +
+                ", genre=" + sex +
+                ", adressepostale='" + address + '\'' +
+                ", numtel='" + phone + '\'' +
                 '}';
     }
 }

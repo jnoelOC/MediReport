@@ -1,22 +1,13 @@
 version: '3'
 services:
-#  mediscreen:
-#    image: mediscreen
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    links:
-#      - medireportui
-#      - medipatient
-
   medireportui:
     image: medireportui
-    container_name : medireportui_c
-    build:
-      context: .
-      dockerfile: ./medireportui/Dockerfile
+    container_name : medireportui
+    build: ./medireportui/
     ports:
-      - "9090:8080"
+      - "9090:9090"
+    environment:
+      SPRING.PATIENT.URL: medipatient:9190
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
@@ -24,13 +15,10 @@ services:
 
   medipatient:
     image : medipatient
-    container_name : medipatient_c
-    build:
-      context: .
-      dockerfile: ./medipatient/Dockerfile
-#    build: .
+    container_name : medipatient
+    build: ./medipatient/
     ports:
-      - "9190:8080"
+      - "9190:9190"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
@@ -47,8 +35,8 @@ services:
         max-file: "3"
 
   db:
-    image: mysql:8.0.32
-    container_name : mysql_c
+    image: mysql
+    container_name : monmysql
     restart: always
     ports:
       - "33006:3306"
@@ -58,19 +46,6 @@ services:
       MYSQL_DATABASE: medipatient
     volumes:
       - medipatientDB:/var/lib/mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_c
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8082:80
 
 volumes:
   medipatientDB:

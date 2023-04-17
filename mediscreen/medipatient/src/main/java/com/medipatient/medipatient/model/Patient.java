@@ -17,35 +17,35 @@ public class Patient {
     @Column(name="ID", unique=true, nullable=false)
     private Integer id;
 
-    @Column(name="PRENOM", length=50)
-    private String prenom;
+    @Column(name="FIRSTNAME", length=50)
+    private String firstname;
 
-    @Column(name="NOM", length=50)
-    private String nom;
+    @Column(name="LASTNAME", length=50)
+    private String lastname;
 
-    @Column(name="DATENAISS")
-    private LocalDate datenaiss;
+    @Column(name="DOB")
+    private LocalDate dob;
 
-    @Column(name="GENRE", columnDefinition="boolean default true")
-    private Boolean genre;
+    @Column(name="SEX", columnDefinition="boolean default true")
+    private Boolean sex;
 
-    @Column(name="ADRESSEPOSTALE", length=250)
-    private String adressepostale;
+    @Column(name="ADDRESS", length=250)
+    private String address;
 
-    @Column(name="NUMTEL", length=20)
-    private String numtel;
+    @Column(name="PHONE", length=20)
+    private String phone;
 
     public Patient() {
     }
 
-    public Patient(Integer id, String prenom, String nom, LocalDate datenaiss, Boolean genre, String adressepostale, String numtel) {
+    public Patient(Integer id, String firstname, String lastname, LocalDate dob, Boolean sex, String address, String phone) {
         this.id = id;
-        this.prenom = prenom;
-        this.nom = nom;
-        this.datenaiss = datenaiss;
-        this.genre = genre;
-        this.adressepostale = adressepostale;
-        this.numtel = numtel;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dob = dob;
+        this.sex = sex;
+        this.address = address;
+        this.phone = phone;
     }
 
     public Integer getId() {
@@ -56,64 +56,64 @@ public class Patient {
         this.id = id;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getNom() {
-        return nom;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public LocalDate getDatenaiss() {
-        return datenaiss;
+    public LocalDate getDob() {
+        return dob;
     }
 
-    public void setDatenaiss(LocalDate datenaiss) {
-        this.datenaiss = datenaiss;
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
-    public Boolean getGenre() {
-        return genre;
+    public Boolean getSex() {
+        return sex;
     }
 
-    public void setGenre(Boolean genre) {
-        this.genre = genre;
+    public void setSex(Boolean sex) {
+        this.sex = sex;
     }
 
-    public String getAdressepostale() {
-        return adressepostale;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdressepostale(String adressepostale) {
-        this.adressepostale = adressepostale;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getNumtel() {
-        return numtel;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumtel(String numtel) {
-        this.numtel = numtel;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
         return "Patient{" +
                 "id=" + id +
-                ", prenom='" + prenom + '\'' +
-                ", nom='" + nom + '\'' +
-                ", datenaiss=" + datenaiss +
-                ", genre=" + genre +
-                ", adressepostale='" + adressepostale + '\'' +
-                ", numtel='" + numtel + '\'' +
+                ", prenom='" + firstname + '\'' +
+                ", nom='" + lastname + '\'' +
+                ", datenaiss=" + dob +
+                ", genre=" + sex +
+                ", adressepostale='" + address + '\'' +
+                ", numtel='" + phone + '\'' +
                 '}';
     }
 }

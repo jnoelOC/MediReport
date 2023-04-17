@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,12 +16,12 @@ WELCOME !!!
     <div th:each="patient : ${patients}" class="col-3">
 
             <p th:number= "${patient.id}"></p>
-            <p th:text= "${patient.prenom}"></p>
-            <p th:text= "${patient.nom}"></p>
-            <p th:date= "${patient.datenaiss}"></p>
-            <p th:boolean= "${patient.genre}"></p>
-            <p th:text= "${patient.adressepostale}"></p>
-            <p th:text= "${patient.numtel}"></p>
+            <p th:text= "${patient.firstname}"></p>
+            <p th:text= "${patient.lastname}"></p>
+            <p th:date= "${patient.dob}"></p>
+            <p th:boolean= "${patient.sex}"></p>
+            <p th:text= "${patient.address}"></p>
+            <p th:text= "${patient.phone}"></p>
 
     </div>
 

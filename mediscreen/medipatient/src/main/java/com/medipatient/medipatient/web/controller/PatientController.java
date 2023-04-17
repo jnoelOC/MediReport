@@ -4,6 +4,8 @@ import com.medipatient.medipatient.model.Patient;
 import com.medipatient.medipatient.repository.IPatientRepository;
 import com.medipatient.medipatient.service.PatientService;
 import com.medipatient.medipatient.web.exceptions.PatientIntrouvableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +23,11 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
-
+    private static Logger logger = LoggerFactory.getLogger(PatientController.class);
 
     @GetMapping("/patients")
     public List<Patient> listerTousLesPatients() {
-       /* Patient patient = new Patient();
-        patient.setAdressepostale("toto");
-        patient.setNom("toto");
-        patient.setPrenom("Tutu");
-        patient.setDatenaiss(LocalDate.now());
-        patientDao.save(patient);*/
+        logger.info("dans la méthode listerTousLesPatients");
         List<Patient> patients = patientService.findAll();
 
         if(patients.isEmpty()) throw new PatientIntrouvableException("Aucun patient n'est disponible.");
@@ -40,7 +37,7 @@ public class PatientController {
 
     @GetMapping( value = "/patient")
     public Optional<Patient> recupererUnPatient(@RequestParam int id) {
-
+        logger.info("dans la méthode recupererUnPatient");
         Optional<Patient> patient = patientService.findById(id);
 
         if(!patient.isPresent()) throw new PatientIntrouvableException("Le patient correspondant à l'id " + id + " n'existe pas.");
@@ -51,6 +48,7 @@ public class PatientController {
 
     @PostMapping(value = "/patient/add")
     public ResponseEntity<Patient> ajouterUnPatient(@RequestBody Patient patient) {
+        logger.info("dans la méthode ajouterUnPatient");
         Patient patientAdded = patientService.save(patient);
         if (Objects.isNull(patientAdded)) {
             return ResponseEntity.noContent().build();
@@ -66,7 +64,7 @@ public class PatientController {
 
     @DeleteMapping( value = "/patient/delete")
     public ResponseEntity<String> effacerUnPatient(@RequestParam int id) {
-
+        logger.info("dans la méthode effacerUnPatient");
         Boolean idFound = false;
         List<Patient> patients = patientService.findAll();
         for (Patient patient: patients) {

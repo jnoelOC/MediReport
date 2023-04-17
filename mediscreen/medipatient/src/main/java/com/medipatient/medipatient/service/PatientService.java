@@ -29,9 +29,9 @@ public class PatientService {
         patientRepository.deleteById(id);
     }
 
-    public Patient findByPrenom(String prenom)
+    public Patient findByFirstname(String prenom)
     {
-        return patientRepository.findByPrenom(prenom);
+        return patientRepository.findByFirstname(prenom);
     }
 
     public Patient save(Patient patient)

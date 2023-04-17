@@ -1,16 +1,12 @@
 # Application medireportui
 
 FROM eclipse-temurin:11-jre-alpine AS BUILD
-#RUN mkdir /medireportui
-WORKDIR ./medireportui
-#COPY pom.xml .
-#COPY src ./src
-#RUN mvn package -DskipTests
+RUN mkdir medireportui
+WORKDIR medireportui
 
 EXPOSE 9090
 
-COPY ./target/medireportui-0.0.1-SNAPSHOT.jar .
-#COPY --from=build ./target/medireportui-0.0.1-SNAPSHOT.jar .
+COPY target/medireportui-*.jar medireportui.jar
 
 # Démarrage de l'application medireportui
-CMD ["java","-jar", "./medireportui-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar", "./medireportui.jar"]
