@@ -4,6 +4,8 @@ import com.medireportui.medireportui.beans.PatientBean;
 import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +15,53 @@ import java.util.List;
 @Controller
 public class PatientController {
 
+    private static Logger logger = LoggerFactory.getLogger(PatientController.class);
+
     private final MicroservicePatientsProxy patientsProxy;
 
-    private static Logger logger = LoggerFactory.getLogger(PatientController.class);
     public PatientController(MicroservicePatientsProxy patientsProxy){
         this.patientsProxy = patientsProxy;
     }
 
-    @GetMapping("/patients")
+    @GetMapping({"/", "/home"})
+    public String getHome() {
+        logger.info("Je suis dans home de medireportui");
+        return "home";
+    }
+
+    @GetMapping("/patient/list")
+//    public ResponseEntity<List<PatientBean>> listOfPatients(Model model) {
     public String listOfPatients(Model model) {
         logger.info("Je suis dans listOfPatients de medireportui");
         List<PatientBean> patients =  patientsProxy.listerLesPatients();
-        for(PatientBean pat : patients)
-        {
-            logger.info(pat.getFirstname());
+
+        if (null == patients || patients.isEmpty()){
+            logger.info("liste des patients null ou vide !");
+//            return new ResponseEntity<>(patients, HttpStatus.NOT_FOUND);
+            model.addAttribute("errorMsg", "This list is empty.");
         }
-        model.addAttribute("patients", patients);
+        else{
+            logger.info("status patients trouvés.");
+//            return new ResponseEntity<>(patients, HttpStatus.FOUND);
+            model.addAttribute("patients", patients);
+        }
+
 
         return "patient/list";
     }
 
-    @GetMapping("/patient")
-    public String recupererUnPatient(Model model, @RequestParam int id) {
+    @GetMapping("/patient/get")
+    public ResponseEntity<PatientBean> recupererUnPatient(@RequestParam int id) {
         logger.info("Je suis dans recupererUnPatient de medireportui");
         PatientBean patient = patientsProxy.recupererUnPatient(id);
 
-        model.addAttribute("patient", patient);
-
-        return "patient";
+        if (null == patient) {
+            logger.error("Erreur dans recupererUnPatient de medireportui : status Non trouvé.");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            logger.info("status patient trouvé.");
+            return new ResponseEntity<>(patient, HttpStatus.FOUND);
+        }
     }
 
     @PostMapping("/patient/add")

@@ -7,6 +7,7 @@ import com.medipatient.medipatient.web.exceptions.PatientIntrouvableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,22 +28,38 @@ public class PatientController {
 
     @GetMapping("/patients")
     public List<Patient> listerTousLesPatients() {
-        logger.info("dans la méthode listerTousLesPatients");
+        logger.info("dans la méthode listerTousLesPatients de medipatient");
         List<Patient> patients = patientService.findAll();
 
-        if(patients.isEmpty()) throw new PatientIntrouvableException("Aucun patient n'est disponible.");
-
-        return patients;
+        if(patients.isEmpty()){
+            logger.error("Erreur dans listerTousLesPatients de medipatient : status Non trouvé.");
+            return patients;
+        }
+        else{
+            logger.info("status patients trouvés.");
+            return patients;
+        }
+//        if(patients.isEmpty()) throw new PatientIntrouvableException("Aucun patient n'est disponible.");
+//        return patients;
     }
 
     @GetMapping( value = "/patient")
     public Optional<Patient> recupererUnPatient(@RequestParam int id) {
-        logger.info("dans la méthode recupererUnPatient");
+        logger.info("dans la méthode recupererUnPatient de medipatient");
         Optional<Patient> patient = patientService.findById(id);
 
-        if(!patient.isPresent()) throw new PatientIntrouvableException("Le patient correspondant à l'id " + id + " n'existe pas.");
+        if (patient.isPresent()) {
+            logger.info("status patient trouvé.");
+            return patient;
 
-        return patient;
+        } else {
+            logger.error("Erreur dans recupererUnPatient de medipatient : status Non trouvé.");
+            return Optional.empty();
+        }
+
+
+//        if(!patient.isPresent()) throw new PatientIntrouvableException("Le patient correspondant à l'id " + id + " n'existe pas.");
+//        return patient;
     }
 
 
