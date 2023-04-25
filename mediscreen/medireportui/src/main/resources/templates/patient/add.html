@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report UI for MediScreen Inc</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="row">
+  <div class="col-md-5">
+    <div th:replace="~{header_fragment :: #my_template_logo}"></div>
+  </div>
+  <div class="col-md-7">
+    <div th:replace="~{nav_fragment :: #my_template_nav}"></div>
+  </div>
+</div>
+</br></br>
+<h1>Add a patient.</h1>
+</br></br>
+<h4 style=color:red th:text="${errorMsg}"></h4>
+<div class="row">
+
+  <form th:action="@{/patient/validate/}" method="post">
+      <label for="firstname" class="form-label">Firstname</label>
+      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
+      <h4 style=color:red th:text="${errorMsgFirst}"></h4>
+
+      <label for="lastname" class="form-label">Lastname</label>
+      <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
+      <h4 style=color:red th:text="${errorMsgLast}"></h4>
+
+    <div class="mb-3">
+      <label for="dob" class="form-label">Date of birthday</label>
+      <input type="text" class="form-control" id="dob" name="dob" placeholder="Date of birthday">
+      <h4 style=color:red th:text="${errorMsgDob}"></h4>
+    </div>
+    <div class="mb-3">
+      <label for="sex" class="form-label">Gender</label>
+      <input type="text" class="form-control" id="sex" name="sex" placeholder="Gender">
+      <h4 style=color:red th:text="${errorMsgSex}"></h4>
+    </div>
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+      <h4 style=color:red th:text="${errorMsgAddress}"></h4>
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone">
+      <h4 style=color:red th:text="${errorMsgPhone}"></h4>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <a class="btn btn-danger btn-sm" href="/patient/list">Cancel</a>
+        <input class="btn btn-primary btn-sm" type="submit" value="Add a patient">
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!--<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+</body>
+</html>

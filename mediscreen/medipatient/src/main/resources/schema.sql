@@ -9,7 +9,7 @@ ID bigint PRIMARY KEY AUTO_INCREMENT,
 FIRSTNAME varchar(50),
 LASTNAME varchar(50),
 PHONE varchar(20),
-SEX SMALLINT,
+SEX varchar(10),
 DOB DATE,
 ADDRESS varchar(250)
 );

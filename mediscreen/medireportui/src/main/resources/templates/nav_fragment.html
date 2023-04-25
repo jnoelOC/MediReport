@@ -19,12 +19,12 @@
           All about patients
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-          <li><a class="dropdown-item" href="/patient/list">Get all patients</a></li>
-          <li><a class="dropdown-item" href="/patient/get">Get a patient</a></li>
+          <li><a class="dropdown-item" th:href="@{/patient/list}">Get all patients</a></li>
+          <li><a class="dropdown-item" th:href="@{/patient/get}">Get a patient</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="/patient/add">Add a patient</a></li>
-          <li><a class="dropdown-item" href="/patient/update">Update a patient</a></li>
-          <li><a class="dropdown-item" href="/patient/delete">Delete a patient</a></li>
+          <li><a class="dropdown-item" th:href="@{/patient/add}">Add a patient</a></li>
+          <li><a class="dropdown-item" th:href="@{/patient/updateOne}">Update a patient</a></li>
+          <li><a class="dropdown-item" th:href="@{/patient/delete}">Delete a patient</a></li>
         </ul>
       </li>
       <li class="nav-item">

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -43,46 +44,89 @@ public class PatientController {
 //        return patients;
     }
 
-    @GetMapping( value = "/patient")
-    public Optional<Patient> recupererUnPatient(@RequestParam int id) {
+    @GetMapping( value = "/patient/get/{id}")
+    public Optional<Patient> recupererUnPatient(@PathVariable("id") int id) {
         logger.info("dans la méthode recupererUnPatient de medipatient");
-        Optional<Patient> patient = patientService.findById(id);
+        Optional<Patient> patient;
+        if(id > 0) {
+            patient = patientService.findById(id);
+            if (patient.isPresent()) {
+                logger.info("status patient trouvé.");
+                return patient;
 
-        if (patient.isPresent()) {
-            logger.info("status patient trouvé.");
-            return patient;
-
-        } else {
-            logger.error("Erreur dans recupererUnPatient de medipatient : status Non trouvé.");
-            return Optional.empty();
+            } else {
+                logger.error("Erreur dans recupererUnPatient de medipatient : status Non trouvé.");
+                return Optional.empty();
+            }
+        }
+        else {
+            logger.error("Erreur dans recupererUnPatient de medipatient : id <= 0.");
+            return  Optional.empty();
         }
 
-
-//        if(!patient.isPresent()) throw new PatientIntrouvableException("Le patient correspondant à l'id " + id + " n'existe pas.");
-//        return patient;
     }
 
-
-    @PostMapping(value = "/patient/add")
-    public ResponseEntity<Patient> ajouterUnPatient(@RequestBody Patient patient) {
+    @PostMapping(value = "/patient/validate")
+  //  public ResponseEntity<Patient>
+    public Patient ajouterUnPatient(@RequestParam String firstname, @RequestParam String lastname, @RequestParam LocalDate dob,
+                                    @RequestParam String sex, @RequestParam String address, @RequestParam String phone) {
         logger.info("dans la méthode ajouterUnPatient");
+        Patient patient = new Patient(null, firstname, lastname, dob, sex, address, phone);
         Patient patientAdded = patientService.save(patient);
+
         if (Objects.isNull(patientAdded)) {
-            return ResponseEntity.noContent().build();
+            //return ResponseEntity.noContent().build();
+            return null;
         }
-        URI location = ServletUriComponentsBuilder
+/*        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(patientAdded.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+                .toUri();*/
+       // return ResponseEntity.created(location).build();
+       // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
+        return patientAdded;
+    }
+
+    @GetMapping(value = "/patient/update")
+    public Patient modifierUnPatientGet(@RequestParam int id) {
+        logger.info("dans la méthode modifierUnPatientGet");
+
+        Optional<Patient> patient = patientService.findById(id);
+        return patient.orElse(null);
+    }
+
+    @PutMapping(value = "/patient/update")
+    public Patient modifierUnPatient(@RequestParam int id, @Validated Patient patient,
+                                     @RequestParam String firstname, @RequestParam String lastname, @RequestParam LocalDate dob,
+                                     @RequestParam String sex, @RequestParam String address, @RequestParam String phone) {
+        logger.info("dans la méthode modifierUnPatient");
+
+        patient.setId(id);              patient.setFirstname(firstname);
+        patient.setLastname(lastname);  patient.setDob(dob);
+        patient.setSex(sex);            patient.setAddress(address);    patient.setPhone(phone);
+
+        Patient  patientUpdated = patientService.save(patient);
+
+        if (Objects.isNull(patientUpdated)) {
+            //return ResponseEntity.noContent().build();
+            return null;
+        }
+/*        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(patientAdded.getId())
+                .toUri();*/
+        // return ResponseEntity.created(location).build();
+        // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
+        return patientUpdated;
     }
 
 
-    @DeleteMapping( value = "/patient/delete")
+    @PostMapping( value = "/patient/delete")
     public ResponseEntity<String> effacerUnPatient(@RequestParam int id) {
         logger.info("dans la méthode effacerUnPatient");
-        Boolean idFound = false;
+        boolean idFound = false;
         List<Patient> patients = patientService.findAll();
         for (Patient patient: patients) {
             if(patient.getId().equals(id)){

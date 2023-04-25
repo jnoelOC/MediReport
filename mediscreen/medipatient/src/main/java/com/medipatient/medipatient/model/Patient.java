@@ -26,8 +26,8 @@ public class Patient {
     @Column(name="DOB")
     private LocalDate dob;
 
-    @Column(name="SEX", columnDefinition="boolean default true")
-    private Boolean sex;
+    @Column(name="SEX")
+    private String sex;
 
     @Column(name="ADDRESS", length=250)
     private String address;
@@ -38,7 +38,7 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(Integer id, String firstname, String lastname, LocalDate dob, Boolean sex, String address, String phone) {
+    public Patient(Integer id, String firstname, String lastname, LocalDate dob, String sex, String address, String phone) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -80,11 +80,11 @@ public class Patient {
         this.dob = dob;
     }
 
-    public Boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

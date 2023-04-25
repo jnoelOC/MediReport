@@ -4,22 +4,22 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class PatientBean {
-    private Long id;
+    private Integer id;
     private String firstname;
     private String lastname;
     private LocalDate dob;
-    private Boolean sex;
+    private String sex;
     private String address;
     private String phone;
 
     public PatientBean() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,11 +47,11 @@ public class PatientBean {
         this.dob = dob;
     }
 
-    public Boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
