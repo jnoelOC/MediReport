@@ -1,12 +1,17 @@
 package com.medireportui.medireportui.beans;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+
 
 public class PatientBean {
     private Integer id;
     private String firstname;
     private String lastname;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
     private String sex;
     private String address;
@@ -50,7 +55,6 @@ public class PatientBean {
     public String getSex() {
         return sex;
     }
-
     public void setSex(String sex) {
         this.sex = sex;
     }

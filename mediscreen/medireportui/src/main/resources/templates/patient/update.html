@@ -22,7 +22,7 @@
 <h4 style=color:red th:text="${errorMsg}"></h4>
 <div class="row">
 
-    <form th:action="@{/patient/updateTwo}" th:object="${patient}" method="post">
+    <form th:action="@{/patient/update}" th:object="${patient}" method="post">
             <label for="firstname" class="form-label">Firstname</label>
             <input type="text" class="form-control" th:field="*{firstname}" id="firstname" name="firstname" placeholder="Firstname">
             <h4 style=color:red th:text="${errorMsgFirst}"></h4>
@@ -32,7 +32,7 @@
             <h4 style=color:red th:text="${errorMsgLast}"></h4>
 
             <label for="dob" class="form-label">Date of birthday</label>
-            <input type="text" class="form-control" th:field="*{dob}" id="dob" name="dob" placeholder="Date of birthday">
+            <input type="date" class="form-control" th:field="*{dob}"  id="dob" name="dob">
             <h4 style=color:red th:text="${errorMsgDob}"></h4>
 
             <label for="sex" class="form-label">Gender</label>

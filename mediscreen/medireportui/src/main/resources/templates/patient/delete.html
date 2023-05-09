@@ -24,7 +24,7 @@ Delete a patient.
     <form th:action="@{/patient/deleteOne/}" method="post">
         <div class="col-2 mb-3">
             <label for="id" class="form-label">Id</label>
-            <input type="number" class="form-control" id="id" name="id" placeholder="Id">
+            <input type="text" class="form-control" id="id" name="id" placeholder="Id">
             <h4 style=color:red th:text="${errorMsgId}"></h4>
         </div>
         <div class="form-group">

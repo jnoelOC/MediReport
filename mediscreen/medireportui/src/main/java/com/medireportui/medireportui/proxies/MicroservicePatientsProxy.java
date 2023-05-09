@@ -2,6 +2,8 @@ package com.medireportui.medireportui.proxies;
 
 import com.medireportui.medireportui.beans.PatientBean;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -16,21 +18,17 @@ public interface MicroservicePatientsProxy {
     @GetMapping( value = "/patient/get/{id}")
     PatientBean recupererUnPatient(@PathVariable("id") Integer id);
 
-    @PostMapping( value = "/patient/add")
-    PatientBean ajouterUnPatient();
 
-    @PostMapping( value = "/patient/validate")
-    PatientBean ajouterUnPatient(@RequestParam String firstname, @RequestParam String lastname, @RequestParam LocalDate dob,
-                                 @RequestParam String sex, @RequestParam String address, @RequestParam String phone);
+    @PostMapping(path = "/patient/add")
+    PatientBean ajouterUnPatient(@RequestBody PatientBean patient);
+
 
 
     @GetMapping( value = "/patient/update")
     PatientBean modifierUnPatientGet(@RequestParam Integer id);
 
     @PutMapping( value = "/patient/update")
-    PatientBean modifierUnPatient(@RequestParam Integer id, @RequestParam String firstname, @RequestParam String lastname,
-                                  @RequestParam LocalDate dob, @RequestParam String sex, @RequestParam String address,
-                                  @RequestParam String phone);
+    PatientBean modifierUnPatient(@RequestBody PatientBean patient);
 
 
     @GetMapping( value = "/patient/delete")

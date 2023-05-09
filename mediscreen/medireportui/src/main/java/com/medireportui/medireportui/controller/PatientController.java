@@ -5,17 +5,25 @@ import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 
+import javax.validation.Valid;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-//import javax.validation.Valid;
+
 
 @Controller
 public class PatientController {
@@ -84,57 +92,71 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/patient/add")
-    public String ajouterUnPatientGet() {
+    @GetMapping(value = "/patient/add")
+    public String ajouterUnPatientGet(Model model) {
         logger.info("Je suis dans ajouterUnPatientGet de medireportui");
+        model.addAttribute("patient", new PatientBean());
         return "patient/add";
     }
 
-    @PostMapping("/patient/validate")
-    public String ajouterUnPatient(Model model, @RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname,
-                                   @RequestParam(required=false) String dob, @RequestParam(required=false) String sex,
-                                   @RequestParam("address") String address, @RequestParam("phone") String phone) {
+
+    @PostMapping( value = "/patient/validate")
+    public String ajouterUnPatient(@RequestBody @ModelAttribute("patient") @Valid PatientBean patient, Model model) {
+
         logger.info("Je suis dans ajouterUnPatientPost de medireportui");
 
-        if(firstname.isBlank()){
+        if (null == patient){
+            model.addAttribute("errorMsg", "patient object is null.");
+            return "patient/add";
+        }
+
+        if(patient.getFirstname().isBlank()){
             model.addAttribute("errorMsgFirst", "Firstname is mandatory.");
             return "patient/add";
         }
 
-        if(lastname.isBlank()){
+        if(patient.getLastname().isBlank()){
             model.addAttribute("errorMsgLast", "Lastname is mandatory.");
             return "patient/add";
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDateDob = LocalDate.parse(dob, formatter);
-
-        PatientBean patient1 = patientsProxy.ajouterUnPatient(firstname,lastname, localDateDob, sex, address, phone);
-
-        if(null == patient1) {
+        if(null == patient.getDob()){
+            model.addAttribute("errorMsgDob", "Date of birthday is mandatory.");
             return "patient/add";
         }
+        
+        if(patient.getSex().isBlank() || (!patient.getSex().equals("f") && !patient.getSex().equals("m"))){
+            model.addAttribute("errorMsgSex", "Gender is mandatory : m or f.");
+            return "patient/add";
+        }
+
+        if(patient.getAddress().isBlank()){
+            model.addAttribute("errorMsgAddress", "Address is mandatory.");
+            return "patient/add";
+        }
+        if(patient.getPhone().isBlank()){
+            model.addAttribute("errorMsgPhone", "Phone is mandatory.");
+            return "patient/add";
+        }
+
+        PatientBean patient1 = patientsProxy.ajouterUnPatient(patient);
+        if (null == patient1) {
+            return "patient/add";
+        }
+
         List<PatientBean> patients =  patientsProxy.listerLesPatients();
         model.addAttribute("patients", patients);
-
         return "patient/list";
-
     }
 
-    @GetMapping("/patient/delete")
-    public String effacerUnPatientGet() {
-        logger.info("Je suis dans effacerUnPatientGet de medireportui");
 
-        return "patient/delete";
-    }
-
-    @PostMapping("/patient/deleteOne")
-    public String effacerUnPatient(Model model, @RequestParam int id) {
+    @GetMapping("/patient/delete/{id}")
+    public String effacerUnPatient(@PathVariable("id") int id, Model model) {
         logger.info("Je suis dans effacerUnPatient de medireportui");
 
-        PatientBean p = patientsProxy.recupererUnPatient(id);
+     /*   PatientBean p = patientsProxy.recupererUnPatient(id);
         model.addAttribute("patient", p);
-
+*/
         patientsProxy.effacerUnPatient(id);
 
         List<PatientBean> patients =  patientsProxy.listerLesPatients();
@@ -142,26 +164,54 @@ public class PatientController {
         return "redirect:/patient/list";
     }
 
-    @GetMapping("/patient/updateOne")
-    public String showUpdateGet() {
-        return "patient/updateOne";
-    }
-
-    @GetMapping("/patient/updateTwo")
-    public String updatePatientGet(@RequestParam int id, Model model) {
+    @GetMapping("/patient/update/{id}")
+    public String updatePatientGet(@PathVariable("id") int id, Model model) {
         logger.info("Je suis dans updatePatientGet de medireportui");
         PatientBean p = patientsProxy.modifierUnPatientGet(id);
         model.addAttribute("patient", p);
 
-         return "patient/updateTwo";
+         return "patient/update";
     }
 
-    @PostMapping("/patient/updateTwo")
-    public String updatePatientPut(@RequestParam int id, Model model, @RequestParam String firstname, @RequestParam String lastname,
-                                   @RequestParam LocalDate dob, @RequestParam String sex, @RequestParam String address,
-                                   @RequestParam String phone){
-        logger.info("Je suis dans updatePatientPut de medireportui");
-        PatientBean patient1 = patientsProxy.modifierUnPatient(id, firstname, lastname, dob, sex, address, phone);
+    @PostMapping("/patient/update")
+    public String updatePatientPut(Model model, @RequestBody  @ModelAttribute("patient") @Valid PatientBean patient){
+        logger.info("Je suis dans updatePatientPost de medireportui");
+
+        if (null == patient){
+            model.addAttribute("errorMsg", "patient object is null.");
+            return "patient/update";
+        }
+
+        if(patient.getFirstname().isBlank()){
+            model.addAttribute("errorMsgFirst", "Firstname is mandatory.");
+            return "patient/update";
+        }
+
+        if(patient.getLastname().isBlank()){
+            model.addAttribute("errorMsgLast", "Lastname is mandatory.");
+            return "patient/update";
+        }
+
+        if(null == patient.getDob()){
+            model.addAttribute("errorMsgDob", "Date of birthday is mandatory.");
+            return "patient/update";
+        }
+
+        if(patient.getSex().isBlank() || (!patient.getSex().equals("f") && !patient.getSex().equals("m"))){
+            model.addAttribute("errorMsgSex", "Gender is mandatory : m or f.");
+            return "patient/update";
+        }
+
+        if(patient.getAddress().isBlank()){
+            model.addAttribute("errorMsgAddress", "Address is mandatory.");
+            return "patient/update";
+        }
+        if(patient.getPhone().isBlank()){
+            model.addAttribute("errorMsgPhone", "Phone is mandatory.");
+            return "patient/update";
+        }
+
+        PatientBean patient1 = patientsProxy.modifierUnPatient(patient);
 
         if(Objects.isNull(patient1)) {
             return "patient/update";

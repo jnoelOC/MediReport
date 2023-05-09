@@ -1,20 +1,17 @@
 package com.medipatient.medipatient.web.controller;
 
+import com.medipatient.medipatient.dto.PatientInfoDTO;
 import com.medipatient.medipatient.model.Patient;
-import com.medipatient.medipatient.repository.IPatientRepository;
 import com.medipatient.medipatient.service.PatientService;
-import com.medipatient.medipatient.web.exceptions.PatientIntrouvableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
+import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -66,12 +63,41 @@ public class PatientController {
 
     }
 
-    @PostMapping(value = "/patient/validate")
+    @PostMapping(value = "/patient/adddto")
+    //  public ResponseEntity<Patient>
+    public PatientInfoDTO ajouterUnPatientDto(@RequestBody Patient patient) {
+        logger.info("dans la méthode ajouterUnPatientDto");
+
+        PatientInfoDTO patientDto = new PatientInfoDTO();
+
+       PatientInfoDTO patientDtoAdded = patientService.addPatient(patientDto);
+
+        if (Objects.isNull(patientDtoAdded)) {
+            //return ResponseEntity.noContent().build();
+            return null;
+        }
+/*        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(patientAdded.getId())
+                .toUri();*/
+        // return ResponseEntity.created(location).build();
+        // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
+        return patientDtoAdded;
+    }
+
+    // @PostMapping
+    //    public ResponseEntity<Patient> addPatient(@RequestBody @Valid Patient patient) {
+    //
+    //        LOGGER.info("save patient :{} {} request", patient.getFirstName(), patient.getLastName());
+    //        return new ResponseEntity<>(patientService.savePatient(patient), CREATED);
+    //    }
+
+    // @PostMapping(value = "/patient/validate")
+    @PostMapping(value = "/patient/add")
   //  public ResponseEntity<Patient>
-    public Patient ajouterUnPatient(@RequestParam String firstname, @RequestParam String lastname, @RequestParam LocalDate dob,
-                                    @RequestParam String sex, @RequestParam String address, @RequestParam String phone) {
-        logger.info("dans la méthode ajouterUnPatient");
-        Patient patient = new Patient(null, firstname, lastname, dob, sex, address, phone);
+    public Patient ajouterUnPatient(@RequestBody Patient patient) {
+        logger.info("je suis dans la méthode ajouterUnPatient de medipatient");
         Patient patientAdded = patientService.save(patient);
 
         if (Objects.isNull(patientAdded)) {
@@ -97,14 +123,8 @@ public class PatientController {
     }
 
     @PutMapping(value = "/patient/update")
-    public Patient modifierUnPatient(@RequestParam int id, @Validated Patient patient,
-                                     @RequestParam String firstname, @RequestParam String lastname, @RequestParam LocalDate dob,
-                                     @RequestParam String sex, @RequestParam String address, @RequestParam String phone) {
+    public Patient modifierUnPatient(@RequestBody Patient patient) {
         logger.info("dans la méthode modifierUnPatient");
-
-        patient.setId(id);              patient.setFirstname(firstname);
-        patient.setLastname(lastname);  patient.setDob(dob);
-        patient.setSex(sex);            patient.setAddress(address);    patient.setPhone(phone);
 
         Patient  patientUpdated = patientService.save(patient);
 
