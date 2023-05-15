@@ -125,8 +125,8 @@ public class PatientController {
             return "patient/add";
         }
         
-        if(patient.getSex().isBlank() || (!patient.getSex().equals("f") && !patient.getSex().equals("m"))){
-            model.addAttribute("errorMsgSex", "Gender is mandatory : m or f.");
+        if(patient.getSex().isBlank() || (!patient.getSex().equals("F") && !patient.getSex().equals("M"))){
+            model.addAttribute("errorMsgSex", "Gender is mandatory : M or F.");
             return "patient/add";
         }
 
@@ -197,8 +197,8 @@ public class PatientController {
             return "patient/update";
         }
 
-        if(patient.getSex().isBlank() || (!patient.getSex().equals("f") && !patient.getSex().equals("m"))){
-            model.addAttribute("errorMsgSex", "Gender is mandatory : m or f.");
+        if(patient.getSex().isBlank() || (!patient.getSex().equals("F") && !patient.getSex().equals("M"))){
+            model.addAttribute("errorMsgSex", "Gender is mandatory : M or F.");
             return "patient/update";
         }
 

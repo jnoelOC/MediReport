@@ -1,12 +1,14 @@
 package com.medipatient.medipatient.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class PatientInfoDTO {
 
     private String family;
     private String given;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
     private String sex;
     private String address;
