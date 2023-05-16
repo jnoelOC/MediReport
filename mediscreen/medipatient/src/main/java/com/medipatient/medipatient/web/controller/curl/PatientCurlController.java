@@ -1,4 +1,4 @@
-package com.medipatient.medipatient.curl;
+package com.medipatient.medipatient.web.controller.curl;
 
 import com.medipatient.medipatient.dto.PatientInfoDTO;
 import com.medipatient.medipatient.model.Patient;
@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,11 +29,11 @@ public class PatientCurlController {
         List<Patient> patients = patientService.findAll();
 
         if(patients.isEmpty()){
-            logger.error("Erreur dans listerTousLesPatientsCurl de medipatient : status Non trouvé.");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            logger.error("Dans listerTousLesPatientsCurl de medipatient : status Non trouvé.");
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
         }
         else{
-            logger.info("status liste de patients trouvés.");
+            logger.info("Dans liste de patients trouvés.");
             return new ResponseEntity<>(patients, HttpStatus.FOUND);
         }
     }

@@ -1,21 +1,16 @@
-package com.medipatient.medipatient.tu.controller;
-
-import java.time.LocalDate;
-import java.util.*;
+package com.medipatient.medipatient.it.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.medipatient.medipatient.model.Patient;
 import com.medipatient.medipatient.service.PatientService;
 import com.medipatient.medipatient.web.controller.PatientController;
-import jdk.net.SocketFlow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,12 +18,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDate;
+import java.util.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class PatientControllerTest {
+public class PatientControllerIT {
 
 
     @InjectMocks
@@ -58,8 +55,7 @@ public class PatientControllerTest {
                 new Patient(1, "John", "Wayne", LocalDate.of(1909,2,3),
                         "M", "Paris", "0123456789"),
                 new Patient(2, "Juliette", "Binoche", LocalDate.of(1969,12,11),
-                        "F", "Lyon", "0123456789")
-        );
+                        "F", "Lyon", "0123456789"));
 
         when(patientService.findAll()).thenReturn(patients);
 
@@ -113,7 +109,7 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/patient/add")
                         .content(objectMapper.writeValueAsString(p1)).accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
         .andExpect(MockMvcResultMatchers.jsonPath("$.firstname").value("Marylin"))
@@ -139,7 +135,7 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/patient/add")
                         .content(objectMapper.writeValueAsString(p1)).accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
 
@@ -157,7 +153,7 @@ public class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/update")
                         .param("id","1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstname").value("Marylin"))

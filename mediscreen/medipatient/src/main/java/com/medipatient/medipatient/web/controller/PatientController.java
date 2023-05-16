@@ -6,10 +6,13 @@ import com.medipatient.medipatient.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,8 +40,6 @@ public class PatientController {
             logger.info("status patients trouvés.");
             return patients;
         }
-//        if(patients.isEmpty()) throw new PatientIntrouvableException("Aucun patient n'est disponible.");
-//        return patients;
     }
 
 /*    @GetMapping( value = "/patient/get/{id}")
@@ -96,55 +97,60 @@ public class PatientController {
     // @PostMapping(value = "/patient/validate")
     @PostMapping(value = "/patient/add")
   //  public ResponseEntity<Patient>
-    public Patient ajouterUnPatient(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> ajouterUnPatient(@RequestBody Patient patient) {
         logger.info("je suis dans la méthode ajouterUnPatient de medipatient");
         Patient patientAdded = patientService.save(patient);
 
         if (Objects.isNull(patientAdded)) {
-            //return ResponseEntity.noContent().build();
-            return null;
+            return ResponseEntity.noContent().build();
+           // return null;
         }
 /*        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(patientAdded.getId())
-                .toUri();*/
-       // return ResponseEntity.created(location).build();
-       // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
-        return patientAdded;
+                .toUri();
+        return ResponseEntity.created(location).build();*/
+        return new ResponseEntity<>(patientAdded, HttpStatus.CREATED);
+       // return patientAdded;
     }
 
     @GetMapping(value = "/patient/update")
-    public Patient modifierUnPatientGet(@RequestParam int id) {
+    public ResponseEntity<Patient> modifierUnPatientGet(@RequestParam int id) {
         logger.info("dans la méthode modifierUnPatientGet");
 
         Optional<Patient> patient = patientService.findById(id);
-        return patient.orElse(null);
+        if(patient == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(patient.get(), HttpStatus.FOUND);
+        }
     }
 
     @PutMapping(value = "/patient/update")
-    public Patient modifierUnPatient(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> modifierUnPatient(@RequestBody Patient patient) {
         logger.info("dans la méthode modifierUnPatient");
 
         Patient  patientUpdated = patientService.save(patient);
 
         if (Objects.isNull(patientUpdated)) {
-            //return ResponseEntity.noContent().build();
-            return null;
+            return ResponseEntity.noContent().build();
+          //  return null;
         }
 /*        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(patientAdded.getId())
-                .toUri();*/
-        // return ResponseEntity.created(location).build();
-        // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
-        return patientUpdated;
+                .buildAndExpand(patientUpdated.getId())
+                .toUri();
+         return ResponseEntity.ok(location)..build();*/
+         return new ResponseEntity<>(patientUpdated, HttpStatus.OK);
+        //return patientUpdated;
     }
 
 
     @PostMapping( value = "/patient/delete")
-    public ResponseEntity<String> effacerUnPatient(@RequestParam int id) {
+    public ResponseEntity<HttpStatus> effacerUnPatient(@RequestParam int id) {
         logger.info("dans la méthode effacerUnPatient");
         boolean idFound = false;
         List<Patient> patients = patientService.findAll();
