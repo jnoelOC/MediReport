@@ -1,17 +1,23 @@
 package com.medireportui.medireportui.proxies;
 
-import com.medireportui.medireportui.beans.PatientBean;
+import com.medireportui.medireportui.beans.NoteBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@FeignClient(name = "microservice-patients", url = "localhost:9190")
-@FeignClient(name = "microservice-patients", url = "${SPRING.PATIENT.URL}")
-public interface MicroservicePatientsProxy {
-    @GetMapping(value = "/patients")
-    List<PatientBean> listerLesPatients();
 
+//@FeignClient(name = "microservice-notes", url = "localhost:9290")
+@FeignClient(name = "microservice-notes", url = "${SPRING.NOTE.URL}")
+public interface MicroserviceNotesProxy {
+
+    @GetMapping(value = "/notes")
+    List<NoteBean> listerLesNotes();
+
+
+
+
+/*
     @GetMapping( value = "/patient/get/{id}")
     PatientBean recupererUnPatient(@PathVariable("id") Integer id);
 
@@ -33,5 +39,5 @@ public interface MicroservicePatientsProxy {
 
     @PostMapping( value = "/patient/delete")
     void effacerUnPatient(@RequestParam Integer id);
-
+*/
 }

@@ -3,6 +3,7 @@ package com.medipatient.medipatient.ut.controller;
 import java.time.LocalDate;
 import java.util.*;
 
+import com.medipatient.medipatient.dto.PatientInfoDTO;
 import com.medipatient.medipatient.model.Patient;
 import com.medipatient.medipatient.service.PatientService;
 import com.medipatient.medipatient.web.controller.PatientController;
@@ -117,6 +118,44 @@ public class PatientControllerTest {
     }
 
 
+ /*   @Test
+    @DisplayName("AddPatientDTO")
+    void whenValidInputAddPatientDTO_thenReturnsAPatientDTO() throws Exception {
+        // ARRANGE
+        PatientInfoDTO createdPatient = new PatientInfoDTO("Marylin", "Monroe", LocalDate.of(1932,6,12)
+                , "F","123 Fame st. Los Angeles", "0123456789");
+        Patient patientToCreate = new Patient(1, "Marylin", "Monroe", LocalDate.of(1932,6,12)
+                , "F","123 Fame st. Los Angeles", "0123456789");
+        when(patientService.addPatient(any(PatientInfoDTO.class))).thenReturn(createdPatient);
+
+        // ACT
+        ResponseEntity<Patient> result = patientController.ajouterUnPatient(patientToCreate);
+
+        // ASSERT
+        Assertions.assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        Assertions.assertEquals(createdPatient, result.getBody());
+    }
+
+
+    @Test
+    @DisplayName("AddPatientDTOAtNull")
+    void whenNullInputAddPatientDTO_thenReturnsNull() throws Exception {
+        // ARRANGE
+        Patient patientToCreate = new Patient(null, "Marylin", "Monroe", LocalDate.of(1932,6,12)
+                , "F","123 Fame st. Los Angeles", "0123456789");
+        when(patientService.addPatient(any(PatientInfoDTO.class))).thenReturn(null);
+
+        // ACT
+        ResponseEntity<Patient> result = patientController.ajouterUnPatient(patientToCreate);
+
+        // ASSERT
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        Assertions.assertEquals(null, result.getBody());
+    }
+*/
+
+
+
     @Test
     @DisplayName("UpdatePatientGet")
     void whenValidInputUpdatePatientGet_thenReturnsAPatient() throws Exception {
@@ -175,8 +214,23 @@ public class PatientControllerTest {
         // Assert
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
         Assertions.assertEquals(updatedPatient, result.getBody());
+    }
 
+    @Test
+    @DisplayName("UpdatePatientPost")
+    void whenInvalidInputUpdatePatientPost_thenReturnsNull() throws Exception {
+        // Arrange
+        int id = 1;
+        Patient patientToUpdate = new Patient(id, "Marylin", "Monroe", LocalDate.of(1932,6,12)
+                , "M","123 Fame st. Los Angeles", "0123456789");
+        when(patientService.save(patientToUpdate)).thenReturn(null);
 
+        // Act
+        ResponseEntity<Patient> result = patientController.modifierUnPatient(patientToUpdate);
+
+        // Assert
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        Assertions.assertEquals(null, result.getBody());
     }
 
     @Test
@@ -224,28 +278,6 @@ public class PatientControllerTest {
     }
 
 
-/*    @Test
-    @DisplayName("AddPatient")
-    void whenValidInputAddPatientDTO_thenReturnsListOfString() throws Exception {
-        // ARRANGE
-        PatientInfoDTO pd1 = new PatientInfoDTO("TestNone", "Test", LocalDate.of(1914,1,1)
-                , "F","123 rue de Paris Paris 75000", "0123456789");
-
-
-        when(patientService.addPatient(any(PatientInfoDTO.class))).thenReturn(pd1);
-
-        // ACT
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/patient/curl/add")
-                .contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String contentAsString = result.getResponse().getContentAsString();
-
-        // ASSERT
-        assertThat(contentAsString).isNotNull();
-
-    }*/
 
 }
 

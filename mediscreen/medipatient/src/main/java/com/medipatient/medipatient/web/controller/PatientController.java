@@ -64,18 +64,19 @@ public class PatientController {
 
     }
 */
-    @PostMapping(value = "/patient/adddto")
+/*    @PostMapping(value = "/patient/adddto")
     //  public ResponseEntity<Patient>
-    public PatientInfoDTO ajouterUnPatientDto(@RequestBody Patient patient) {
+    public ResponseEntity<PatientInfoDTO> ajouterUnPatientDto(@RequestBody Patient patient) {
         logger.info("dans la méthode ajouterUnPatientDto");
 
         PatientInfoDTO patientDto = new PatientInfoDTO();
 
-       PatientInfoDTO patientDtoAdded = patientService.addPatient(patientDto);
+
+        PatientInfoDTO patientDtoAdded = patientService.addPatient(patientDto);
 
         if (Objects.isNull(patientDtoAdded)) {
-            //return ResponseEntity.noContent().build();
-            return null;
+            return ResponseEntity.noContent().build();
+            //return null;
         }
 /*        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -83,10 +84,10 @@ public class PatientController {
                 .buildAndExpand(patientAdded.getId())
                 .toUri();*/
         // return ResponseEntity.created(location).build();
-        // return new ResponseEntity<>(patientAdded, HttpStatus.FOUND);
-        return patientDtoAdded;
+/*         return new ResponseEntity<>(patientDtoAdded, HttpStatus.CREATED);
+        //return patientDtoAdded;
     }
-
+*/
     // @PostMapping
     //    public ResponseEntity<Patient> addPatient(@RequestBody @Valid Patient patient) {
     //

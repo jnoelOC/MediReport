@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -21,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class PatientServiceTest {
@@ -128,5 +130,36 @@ public class PatientServiceTest {
 
         // ASSERT
         Assertions.assertEquals(p1.getFirstname(), result.getFamily());
+    }
+
+    @Test
+    @DisplayName("AddPatientDTO at null")
+    void whenInvalidInputAddPatientDTO_thenReturnsNull() throws Exception {
+
+        // ARRANGE
+        PatientInfoDTO p3Dto = new PatientInfoDTO("John", "Kennedy"
+                , LocalDate.of(1918,5,10),"F", "Lyon", "0123456789");
+
+        when(patientRepository.save(any(Patient.class))).thenReturn(null);
+
+        // ACT
+        PatientInfoDTO result = patientService.addPatient(p3Dto);
+
+        // ASSERT
+        Assertions.assertEquals(null, result);
+    }
+
+    @Test
+    @DisplayName("DeleteById")
+    void whenValidInputDeleteById_thenReturnsVoid() throws Exception {
+
+        // ARRANGE
+        willDoNothing().given(patientRepository).deleteById(1);
+
+        // ACT
+        patientService.deleteById(1);
+
+        // ASSERT
+        verify(patientRepository, times(1)).deleteById(1);
     }
 }

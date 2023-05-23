@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   medireportui:
     image: medireportui
@@ -8,10 +8,47 @@ services:
       - "9090:9090"
     environment:
       SPRING.PATIENT.URL: medipatient:9190
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - medipatient
+      - medinotes
+
+  medinotes:
+    image : medinotes
+    container_name : medinotes
+    build : ./medinotes/
+    ports :
+      - "9290:9290"
+    depends_on:
+      - dbnosql
+    environment:
+      logging.level.org.springframework: INFO
+      spring.datasource.url: mongodb://localhost:27017/medinotes
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: root
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  dbnosql:
+    image: mongo
+    container_name: monmongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    logging:
+      options:
+        max-size: 1g
+    environment:
+      MONGODB_ROOT_USERNAME: root
+      MONGODB_ROOT_PASSWORD: root
+#      MONGODB_ALLOW_EMPTY_PASSWORD: true
+      MONGODB_DATABASE: medinotes
+    volumes:
+      - medinotesDB:/data/db
 
   medipatient:
     image : medipatient
@@ -49,3 +86,4 @@ services:
 
 volumes:
   medipatientDB:
+  medinotesDB:
