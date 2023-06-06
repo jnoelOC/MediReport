@@ -1,26 +1,18 @@
 package com.medireportui.medireportui.controller;
 
+
+//import com.mediscreen.medinotes.model.Note;
+import com.medireportui.medireportui.beans.NoteBean;
 import com.medireportui.medireportui.beans.PatientBean;
+import com.medireportui.medireportui.proxies.MicroserviceNotesProxy;
 import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 
 import javax.validation.Valid;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,11 +22,18 @@ public class PatientController {
 
     private static Logger logger = LoggerFactory.getLogger(PatientController.class);
 
-    private final MicroservicePatientsProxy patientsProxy;
+//    @Autowired
+//    private ApiController apiNote;
 
-    public PatientController(MicroservicePatientsProxy patientsProxy){
+    private final MicroservicePatientsProxy patientsProxy;
+    private final MicroserviceNotesProxy notesProxy;
+
+    public PatientController(MicroservicePatientsProxy patientsProxy, MicroserviceNotesProxy notesProxy){
         this.patientsProxy = patientsProxy;
+        this.notesProxy = notesProxy;
     }
+
+
 
     @GetMapping({"/", "/home"})
     public String getHome() {
@@ -58,9 +57,26 @@ public class PatientController {
 //            return new ResponseEntity<>(patients, HttpStatus.FOUND);
             model.addAttribute("patients", patients);
         }
-
-
         return "patient/list";
+    }
+
+    @GetMapping("/patient/listby")
+    public String listOfNotesByPatient(Model model, @RequestParam int idPatient) {
+        logger.info("Je suis dans listOfNotesByPatient de medireportui");
+
+        List<NoteBean> notes = notesProxy.listerLesNotesParPatient(idPatient);
+        PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
+
+        if (null == notes || notes.isEmpty()){
+            logger.info("liste des notes par patient null ou vide !");
+            model.addAttribute("errorMsg", "This list is empty.");
+        }
+        else{
+            logger.info("status notes trouvées.");
+            model.addAttribute("patient", patient);
+            model.addAttribute("notes", notes);
+        }
+        return "note/list";
     }
 
     @GetMapping("/patient/get")

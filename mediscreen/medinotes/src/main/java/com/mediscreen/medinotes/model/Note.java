@@ -6,21 +6,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "medinotes")
 public class Note {
     @Id
-    private String id;
+    private int id;
     private String name;
     private String note;
+    private int idPatient;
 
-    public Note(String id, String name, String note) {
+    public Note(int id, String name, String note, int idPatient) {
         this.id = id;
         this.name = name;
         this.note = note;
+        this.idPatient = idPatient;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -38,5 +40,13 @@ public class Note {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getIdPatient() {
+        return idPatient;
+    }
+
+    public void setIdPatient(int idPatient) {
+        this.idPatient = idPatient;
     }
 }

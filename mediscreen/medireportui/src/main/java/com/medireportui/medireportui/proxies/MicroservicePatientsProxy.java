@@ -12,8 +12,14 @@ public interface MicroservicePatientsProxy {
     @GetMapping(value = "/patients")
     List<PatientBean> listerLesPatients();
 
+/*
+    @GetMapping(value = "/patient/listby")
+    List<PatientBean> listerLesNotesParPatient(@RequestParam int idPatient);
+*/
+
+
     @GetMapping( value = "/patient/get/{id}")
-    PatientBean recupererUnPatient(@PathVariable("id") Integer id);
+    PatientBean recupererUnPatient(@PathVariable("id") int id);
 
 
     @PostMapping(path = "/patient/add")
@@ -22,7 +28,7 @@ public interface MicroservicePatientsProxy {
 
 
     @GetMapping( value = "/patient/update")
-    PatientBean modifierUnPatientGet(@RequestParam Integer id);
+    PatientBean modifierUnPatientGet(@RequestParam int id);
 
     @PutMapping( value = "/patient/update")
     PatientBean modifierUnPatient(@RequestBody PatientBean patient);
@@ -32,6 +38,6 @@ public interface MicroservicePatientsProxy {
     void effacerUnPatientGet();
 
     @PostMapping( value = "/patient/delete")
-    void effacerUnPatient(@RequestParam Integer id);
+    void effacerUnPatient(@RequestParam int id);
 
 }

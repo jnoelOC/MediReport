@@ -42,7 +42,7 @@ public class PatientController {
         }
     }
 
-/*    @GetMapping( value = "/patient/get/{id}")
+    @GetMapping( value = "/patient/get/{id}")
     public Optional<Patient> recupererUnPatient(@PathVariable("id") int id) {
         logger.info("dans la méthode recupererUnPatient de medipatient");
         Optional<Patient> patient;
@@ -63,7 +63,7 @@ public class PatientController {
         }
 
     }
-*/
+
 /*    @PostMapping(value = "/patient/adddto")
     //  public ResponseEntity<Patient>
     public ResponseEntity<PatientInfoDTO> ajouterUnPatientDto(@RequestBody Patient patient) {
@@ -97,7 +97,6 @@ public class PatientController {
 
     // @PostMapping(value = "/patient/validate")
     @PostMapping(value = "/patient/add")
-  //  public ResponseEntity<Patient>
     public ResponseEntity<Patient> ajouterUnPatient(@RequestBody Patient patient) {
         logger.info("je suis dans la méthode ajouterUnPatient de medipatient");
         Patient patientAdded = patientService.save(patient);

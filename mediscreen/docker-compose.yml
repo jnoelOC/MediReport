@@ -24,14 +24,20 @@ services:
       - dbnosql
     environment:
       logging.level.org.springframework: INFO
-      spring.datasource.url: mongodb://localhost:27017/medinotes
-      SPRING.DATASOURCE.USERNAME: root
-      SPRING.DATASOURCE.PASSWORD: root
+#      spring.datasource.url: mongodb://root:root@localhost:27017/medinotes
+#      spring.datasource.url: mongodb://dbnosql:27017/medinotes
+#      SPRING.DATASOURCE.USERNAME: root
+#      SPRING.DATASOURCE.PASSWORD: root
+#      MONGODB_HOST: mongodb
+      MONGODB_HOST: dbnosql
+      MONGODB_PORT: 27017
+      MONGODB_DB: medinotes
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+
 
   dbnosql:
     image: mongo
@@ -42,11 +48,11 @@ services:
     logging:
       options:
         max-size: 1g
-    environment:
-      MONGODB_ROOT_USERNAME: root
-      MONGODB_ROOT_PASSWORD: root
+#    environment:
+#      MONGODB_ROOT_USERNAME: root
+#      MONGODB_ROOT_PASSWORD: root
 #      MONGODB_ALLOW_EMPTY_PASSWORD: true
-      MONGODB_DATABASE: medinotes
+#      MONGODB_DATABASE: medinotes
     volumes:
       - medinotesDB:/data/db
 

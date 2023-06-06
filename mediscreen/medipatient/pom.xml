@@ -76,15 +76,35 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-project-info-reports-plugin</artifactId>
-            <version>3.4.1</version>
+            <version>3.0.0</version>
         </dependency>
+                <dependency>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.0</version>
+                </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+         <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.0</version>
+            </plugin>
+                   <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.2</version>
                 <configuration>
                     <mainClass>com.medipatient.medipatient.MedipatientApplication</mainClass>
                     <layout>JAR</layout>
@@ -95,14 +115,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
-                <configuration>
-                    <!--<trimStackTrace>false</trimStackTrace>-->
-                    <includes>
-                        <exclude>**/*IT.java</exclude>
-                        <exclude>**/*DTO.java</exclude>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -126,6 +138,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*DTO.*</exclude>
+                        <exclude>**/model/*.*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

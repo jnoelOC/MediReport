@@ -1,18 +1,19 @@
 package com.medireportui.medireportui.beans;
 
 public class NoteBean {
-    private String id;
+    private int id;
     private String name;
     private String note;
+    private int idPatient;
 
     public NoteBean() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,5 +31,13 @@ public class NoteBean {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getIdPatient() {
+        return idPatient;
+    }
+
+    public void setIdPatient(int idPatient) {
+        this.idPatient = idPatient;
     }
 }
