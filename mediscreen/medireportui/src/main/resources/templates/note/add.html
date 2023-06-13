@@ -22,7 +22,7 @@
 <h4 style=color:red th:text="${errorMsg}"></h4>
 <div class="row">
 
-  <form th:action="@{/note/validate/}" method="post" th:object="${note}">
+  <form th:action="@{/note/validate(idPatient=${patient.id})}" method="post" th:object="${note}">
       <label for="id" class="form-label"></label>
       <input type="hidden" class="form-control w-50" id="id" name="id" placeholder="Id" th:field="*{id}" >
       <h4 style=color:red th:text="${errorMsgId}"></h4>
@@ -33,7 +33,7 @@
 
 
       <label for="note" class="form-label">Note</label>
-      <textarea cols="10" rows="2" name="note" id="note" th:field="*{note}"></textarea>
+      <textarea cols="98" rows="2" class="form-control w-50" name="note" id="note" th:field="*{note}"></textarea>
       <!--<input type="text" class="form-control w-50" id="note" name="note" placeholder="Note" th:field="*{note}" >-->
       <h4 style=color:red th:text="${errorMsgNote}"></h4>
 

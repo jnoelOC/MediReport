@@ -27,9 +27,8 @@ public class NoteController {
 
 
     @GetMapping("/note/listby")
-    public String listOfNotes(Model model, @RequestParam("idPatient") int idPatient) {
+    public String listOfNotes(Model model, @RequestParam int idPatient) {
         logger.info("Je suis dans listOfNotes de medireportui");
-
         List<NoteBean> notes =  notesProxy.listerLesNotesParPatient(idPatient);
 
         if (null == notes || notes.isEmpty()){
@@ -44,24 +43,33 @@ public class NoteController {
     }
 
 
-    @GetMapping(value = "/note/add")
-    public String ajouterUneNoteGet(Model model) {
+    @GetMapping(value = "/note/add/{id}")
+    public String ajouterUneNoteGet(Model model, @PathVariable("id") int idPatient) {
         logger.info("Je suis dans ajouterUneNoteGet de medireportui");
+
         model.addAttribute("note", new NoteBean());
+
+        PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
+        model.addAttribute("patient", patient);
+
         return "note/add";
     }
 
 
     @PostMapping( value = "/note/validate")
-    public String ajouterUneNote(@RequestBody @ModelAttribute("note") @Valid NoteBean note, Model model, @RequestParam("id") int idPatient) {
+    public String ajouterUneNote(@RequestBody @ModelAttribute("note") @Valid NoteBean note, Model model, @RequestParam("idPatient") int idPatient) {
 
-        logger.info("Je suis dans ajouterUneNote de medireportui");
-
-        if (null == note){
+        logger.info("Je suis dans ajouterUneNotePost de medireportui");
+       /* if (null == note){
             model.addAttribute("errorMsg", "note object is null.");
             return "note/add";
-        }
+        }*/
 
+     /*   if (null == note.getId()){
+            model.addAttribute("errorMsgId", "Id is null.");
+            return "note/add";
+        }
+*/
         if(note.getName().isBlank()){
             model.addAttribute("errorMsgName", "Name is mandatory.");
             return "note/add";
@@ -93,7 +101,7 @@ public class NoteController {
 
 
     @GetMapping("/note/update")
-    public String updateNoteGet(@RequestParam("id") int id, Model model, @RequestParam("idPatient") int idPatient) {
+    public String updateNoteGet(@RequestParam("id") String id, Model model, @RequestParam("idPatient") int idPatient) {
         logger.info("Je suis dans updateNoteGet de medireportui");
         NoteBean n = notesProxy.modifierUneNoteGet(id);
         model.addAttribute("note", n);
@@ -140,7 +148,7 @@ public class NoteController {
         return "redirect:/note/listby";
     }
     @GetMapping("/note/delete")
-    public String effacerUneNote(@RequestParam("id") int id, Model model, @RequestParam("idPatient") int idPatient) {
+    public String effacerUneNote(@RequestParam("id") String id, Model model, @RequestParam("idPatient") int idPatient) {
         logger.info("Je suis dans effacerUneNote de medireportui");
 
         PatientBean p = patientsProxy.recupererUnPatient(idPatient);

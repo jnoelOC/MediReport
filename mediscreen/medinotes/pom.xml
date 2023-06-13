@@ -19,6 +19,17 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-legacy</artifactId>
+			<version>4.9.1</version>
+			<!--<artifactId>mongodb-driver-sync</artifactId>
+			<version>4.9.1</version>-->
+			<!--<artifactId>mongo-java-driver</artifactId>
+			<version>3.12.12</version>-->
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -34,6 +45,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>
@@ -53,7 +70,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M5</version>
 				<configuration>
-					<trimStackTrace>false</trimStackTrace>
+					<trimStackTrace>true</trimStackTrace>
 				</configuration>
 			</plugin>
 			<plugin>

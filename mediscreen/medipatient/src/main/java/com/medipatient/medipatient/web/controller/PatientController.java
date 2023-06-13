@@ -3,6 +3,7 @@ package com.medipatient.medipatient.web.controller;
 import com.medipatient.medipatient.dto.PatientInfoDTO;
 import com.medipatient.medipatient.model.Patient;
 import com.medipatient.medipatient.service.PatientService;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +43,27 @@ public class PatientController {
         }
     }
 
-    @GetMapping( value = "/patient/get/{id}")
-    public Optional<Patient> recupererUnPatient(@PathVariable("id") int id) {
+    @GetMapping( value = "/patient/getOne")
+    public Patient recupererUnPatient(@RequestParam int id) {
         logger.info("dans la méthode recupererUnPatient de medipatient");
         Optional<Patient> patient;
         if(id > 0) {
             patient = patientService.findById(id);
             if (patient.isPresent()) {
                 logger.info("status patient trouvé.");
-                return patient;
+                return patient.get();
+               // return new ResponseEntity<>(patient.get(), HttpStatus.FOUND);
 
             } else {
                 logger.error("Erreur dans recupererUnPatient de medipatient : status Non trouvé.");
-                return Optional.empty();
+                return null;
+                //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         else {
-            logger.error("Erreur dans recupererUnPatient de medipatient : id <= 0.");
-            return  Optional.empty();
+            logger.error("Erreur dans recupererUnPatient de medipatient : idPatient <= 0.");
+            return  null;
+            //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }

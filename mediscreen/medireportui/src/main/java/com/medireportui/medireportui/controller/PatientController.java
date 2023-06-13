@@ -60,8 +60,8 @@ public class PatientController {
         return "patient/list";
     }
 
-    @GetMapping("/patient/listby")
-    public String listOfNotesByPatient(Model model, @RequestParam int idPatient) {
+    @GetMapping("/patient/listby/{id}")
+    public String listOfNotesByPatient(Model model, @PathVariable("id") int idPatient) {
         logger.info("Je suis dans listOfNotesByPatient de medireportui");
 
         List<NoteBean> notes = notesProxy.listerLesNotesParPatient(idPatient);
@@ -73,10 +73,11 @@ public class PatientController {
         }
         else{
             logger.info("status notes trouvées.");
-            model.addAttribute("patient", patient);
-            model.addAttribute("notes", notes);
+
         }
-        return "note/list";
+        model.addAttribute("patient", patient);
+        model.addAttribute("notes", notes);
+        return "note/listby";
     }
 
     @GetMapping("/patient/get")
@@ -88,15 +89,15 @@ public class PatientController {
 
     @GetMapping("/patient/getOne")
      //public ResponseEntity<PatientBean> recupererUnPatient(@RequestParam("id") int id, Model model) {
-    public String recupererUnPatient(@RequestParam("id") int id, Model model) {
+    public String recupererUnPatient(@RequestParam int id, Model model) {
         logger.info("Je suis dans recupererUnPatient de medireportui");
-        logger.error("avant methode recupererUnPatient du proxy ");
+        logger.info("avant methode recupererUnPatient du proxy ");
         PatientBean patient = patientsProxy.recupererUnPatient(id);
         logger.error("patient numero : " + patient.getId());
         if (Objects.isNull(patient)) {
             logger.error("Erreur dans recupererUnPatient de medireportui : status Non trouvé.");
             model.addAttribute("errorMsgId", "Id is mandatory. Patient not found.");
-            //return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             //return null;
             return "patient/get";
         }

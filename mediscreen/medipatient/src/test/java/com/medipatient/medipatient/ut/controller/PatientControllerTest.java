@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class PatientControllerTest {
+class PatientControllerTest {
 
 
     @InjectMocks
@@ -277,7 +277,51 @@ public class PatientControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Get Patient by id FOUND")
+    void whenValidInputGetPatientById_thenReturnsFound() throws Exception {
+        // ARRANGE
+        int id = 1;
+        Patient p1 = new Patient(1, "John", "Wayne", LocalDate.of(1909,2,3),
+                "M", "Paris", "0123456789");
+        when(patientService.findById(any(Integer.class))).thenReturn(Optional.of(p1));
 
+        // Act
+        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+
+        // Assert
+        Assertions.assertEquals(HttpStatus.FOUND, result.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Get Patient by id NOT FOUND")
+    void whenInvalidInputGetPatientById_thenReturnsNotFound() throws Exception {
+        // ARRANGE
+        int id = 1;
+        when(patientService.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+
+        // Assert
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+
+    }
+
+    @Test
+    @DisplayName("Get Patient by id at zero")
+    void whenInvalidInputGetPatientByIdAtZero_thenReturnsNotFound() throws Exception {
+        // ARRANGE
+        int id = 0;
+        when(patientService.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+
+        // Assert
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+
+    }
 
 }
 

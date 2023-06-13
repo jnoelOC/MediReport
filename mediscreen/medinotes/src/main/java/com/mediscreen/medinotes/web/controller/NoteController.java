@@ -3,6 +3,7 @@ package com.mediscreen.medinotes.web.controller;
 
 import com.mediscreen.medinotes.model.Note;
 import com.mediscreen.medinotes.service.NoteService;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class NoteController {
     }
 
     @GetMapping("/note/listby")
-    public List<Note> listerToutesLesNotesParPatient(@RequestParam("idPatient") int idPatient) {
+    public List<Note> listerToutesLesNotesParPatient(@RequestParam("idPatient") Integer idPatient) {
         logger.info("dans la méthode listerToutesLesNotesParPatient de medinotes");
 
         List<Note> notes = noteService.listerLesNotesParPatient(idPatient);
@@ -63,7 +64,7 @@ public class NoteController {
     }
 
     @GetMapping(value = "/note/update")
-    public ResponseEntity<Note> modifierUneNoteGet(@RequestParam int id) {
+    public ResponseEntity<Note> modifierUneNoteGet(@RequestParam String id) {
         logger.info("dans la méthode modifierUneNoteGet");
 
         Optional<Note> note = noteService.findById(id);
@@ -89,10 +90,10 @@ public class NoteController {
     }
 
     @DeleteMapping( value = "/note/delete")
-    public ResponseEntity<HttpStatus> effacerUneNote(@RequestParam int id) {
+    public ResponseEntity<HttpStatus> effacerUneNote(@RequestParam String id) {
         logger.info("dans la méthode effacerUneNote");
 
-        if (id >= 0) {
+        if (!id.isEmpty()) {
             noteService.deleteById(id);
             return ResponseEntity.ok().build();}
         else{

@@ -162,4 +162,5 @@ public class PatientServiceTest {
         // ASSERT
         verify(patientRepository, times(1)).deleteById(1);
     }
+
 }

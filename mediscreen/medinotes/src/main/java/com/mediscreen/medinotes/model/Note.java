@@ -3,26 +3,28 @@ package com.mediscreen.medinotes.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 @Document(collection = "medinotes")
 public class Note {
     @Id
-    private int id;
+    private String id;
     private String name;
     private String note;
-    private int idPatient;
+    private Integer idPatient;
 
-    public Note(int id, String name, String note, int idPatient) {
+
+    public Note(String id, String name, String note, Integer idPatient) {
         this.id = id;
         this.name = name;
         this.note = note;
         this.idPatient = idPatient;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,11 +44,11 @@ public class Note {
         this.note = note;
     }
 
-    public int getIdPatient() {
+    public Integer getIdPatient() {
         return idPatient;
     }
 
-    public void setIdPatient(int idPatient) {
+    public void setIdPatient(Integer idPatient) {
         this.idPatient = idPatient;
     }
 }

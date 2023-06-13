@@ -25,13 +25,13 @@ public interface MicroserviceNotesProxy {
 
 
     @GetMapping( value = "/note/update")
-    NoteBean modifierUneNoteGet(@RequestParam int id);
+    NoteBean modifierUneNoteGet(@RequestParam String id);
 
     @PostMapping( value = "/note/update")
     NoteBean modifierUneNote(@RequestBody NoteBean note);
 
     @DeleteMapping(value = "/note/delete")
-    void effacerUneNote(@RequestParam int id);
+    void effacerUneNote(@RequestParam String id);
 
     /*
     @GetMapping( value = "/patient/get/{id}")
