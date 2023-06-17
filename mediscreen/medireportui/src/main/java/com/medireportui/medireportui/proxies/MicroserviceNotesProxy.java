@@ -2,6 +2,7 @@ package com.medireportui.medireportui.proxies;
 
 import com.medireportui.medireportui.beans.NoteBean;
 import com.medireportui.medireportui.beans.PatientBean;
+import org.bson.types.ObjectId;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,10 @@ public interface MicroserviceNotesProxy {
     NoteBean modifierUneNoteGet(@RequestParam String id);
 
     @PostMapping( value = "/note/update")
-    NoteBean modifierUneNote(@RequestBody NoteBean note);
+    NoteBean modifierUneNote(@RequestBody NoteBean note, @RequestParam int idPatient);
 
     @DeleteMapping(value = "/note/delete")
-    void effacerUneNote(@RequestParam String id);
+    void effacerUneNote(@RequestParam String id, @RequestParam int idPatient);
 
     /*
     @GetMapping( value = "/patient/get/{id}")

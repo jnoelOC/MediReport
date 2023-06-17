@@ -1,7 +1,11 @@
 package com.mediscreen.medinotes.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.PrePersist;
+import java.util.UUID;
 
 
 @Document(collection = "medinotes")

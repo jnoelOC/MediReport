@@ -22,7 +22,7 @@
 <h4 style=color:red th:text="${errorMsg}"></h4>
 <div class="row">
 
-    <form th:action="@{/note/update}" th:object="${note}" method="post">
+    <form th:action="@{/note/update/{id}(id=${patient.id})}" th:object="${note}" method="post">
 
             <input type="hidden" class="form-control" th:field="*{id}" id="id" name="id" placeholder="Id">
             <h4 style=color:red th:text="${errorMsgId}"></h4>
@@ -38,14 +38,12 @@
             <input type="hidden" class="form-control" th:field="*{idPatient}" id="idPatient" name="idPatient" placeholder="IdPatient">
             <h4 style=color:red th:text="${errorMsgIdPatient}"></h4>
 
-       <!-- <div class="form-group">-->
             <div class="col-sm-12">
                <!-- <input type="hidden" th:field="*{id}">-->
                 <input type="hidden" th:field="*{idPatient}">
-                <a class="btn btn-danger btn-sm" href="/note/listby">Cancel</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/patient/listby/{id}(id=${patient.id})}">Cancel</a>
                 <input class="btn btn-primary btn-sm" type="submit" value="Update a note">
             </div>
-        <!--</div>-->
     </form>
 </div>
 

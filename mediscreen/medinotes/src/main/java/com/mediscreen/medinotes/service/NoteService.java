@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class NoteService {
@@ -27,7 +28,19 @@ public class NoteService {
     }
 
     public Note save(Note note) {
+        note.setId(UUID.randomUUID().toString().split("-")[0]);
         return noteRepository.save(note);
+    }
+
+    public Note update(Note noteRequest) {
+
+        Note existingNote = noteRepository.findById(noteRequest.getId()).get();
+
+        existingNote.setName(noteRequest.getName());
+        existingNote.setNote(noteRequest.getNote());
+        existingNote.setIdPatient(noteRequest.getIdPatient());
+
+        return noteRepository.save(existingNote);
     }
 
     public void deleteById(String id) { noteRepository.deleteById(id); }

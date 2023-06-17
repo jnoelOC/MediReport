@@ -80,7 +80,7 @@ public class NoteController {
     public ResponseEntity<Note> modifierUneNote(@RequestBody Note note) {
         logger.info("dans la méthode modifierUneNote");
 
-        Note  noteUpdated = noteService.save(note);
+        Note  noteUpdated = noteService.update(note);
 
         if (Objects.isNull(noteUpdated)) {
             return ResponseEntity.noContent().build();
@@ -93,7 +93,7 @@ public class NoteController {
     public ResponseEntity<HttpStatus> effacerUneNote(@RequestParam String id) {
         logger.info("dans la méthode effacerUneNote");
 
-        if (!id.isEmpty()) {
+        if (id!=null) {
             noteService.deleteById(id);
             return ResponseEntity.ok().build();}
         else{

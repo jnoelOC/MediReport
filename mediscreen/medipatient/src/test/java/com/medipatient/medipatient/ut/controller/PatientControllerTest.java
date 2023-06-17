@@ -287,10 +287,10 @@ class PatientControllerTest {
         when(patientService.findById(any(Integer.class))).thenReturn(Optional.of(p1));
 
         // Act
-        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+        Patient patient = patientController.recupererUnPatient(id);
 
         // Assert
-        Assertions.assertEquals(HttpStatus.FOUND, result.getStatusCode());
+        Assertions.assertNotNull(patient);
     }
 
     @Test
@@ -301,10 +301,10 @@ class PatientControllerTest {
         when(patientService.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         // Act
-        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+        Patient result = patientController.recupererUnPatient(id);
 
         // Assert
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        Assertions.assertNull(result);
 
     }
 
@@ -316,10 +316,10 @@ class PatientControllerTest {
         when(patientService.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         // Act
-        ResponseEntity<Patient> result = patientController.recupererUnPatient(id);
+        Patient result = patientController.recupererUnPatient(id);
 
         // Assert
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        Assertions.assertNull(result);
 
     }
 
