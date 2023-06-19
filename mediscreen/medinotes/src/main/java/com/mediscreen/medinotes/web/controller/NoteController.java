@@ -93,7 +93,7 @@ public class NoteController {
     public ResponseEntity<HttpStatus> effacerUneNote(@RequestParam String id) {
         logger.info("dans la méthode effacerUneNote");
 
-        if (id!=null) {
+        if (null!=id) {
             noteService.deleteById(id);
             return ResponseEntity.ok().build();}
         else{

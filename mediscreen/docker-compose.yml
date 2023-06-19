@@ -8,6 +8,7 @@ services:
       - "9090:9090"
     environment:
       SPRING.PATIENT.URL: medipatient:9190
+      SPRING.NOTE.URL: medinotes:9290
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:

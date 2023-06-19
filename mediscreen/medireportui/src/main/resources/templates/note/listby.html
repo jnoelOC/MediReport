@@ -29,19 +29,19 @@
     <table class="table table-bordered mx-auto" style="text-align: center;width: 80%;">
         <thead>
         <tr>
-            <th>Id</th>
+        <!--    <th>Id</th>-->
             <th>name</th>
             <th>note</th>
-            <th>IdPatient</th>
+           <!-- <th>IdPatient</th>-->
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
             <tr th:each="note : ${notes}">
-                <td th:text="${note.id}"></td>
+               <!-- <td th:text="${note.id}"></td>-->
                 <td th:text="${note.name}"></td>
                 <td th:text="${note.note}"></td>
-                <td th:text="${note.idPatient}"></td>
+               <!-- <td th:text="${note.idPatient}"></td>-->
                 <td style="width: 15%" class="text-center">
                     <a th:href="@{/note/update(id=${note.id}, idPatient=${patient.id})}">Edit</a>&nbsp;|&nbsp;
                     <a th:href="@{/note/delete(id=${note.id}, idPatient=${patient.id})}">Delete</a>

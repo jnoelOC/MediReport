@@ -4,7 +4,6 @@ import com.medireportui.medireportui.beans.NoteBean;
 import com.medireportui.medireportui.beans.PatientBean;
 import com.medireportui.medireportui.proxies.MicroserviceNotesProxy;
 import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

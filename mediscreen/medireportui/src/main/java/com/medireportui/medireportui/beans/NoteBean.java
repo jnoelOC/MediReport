@@ -1,6 +1,5 @@
 package com.medireportui.medireportui.beans;
 
-import org.bson.types.ObjectId;
 
 public class NoteBean {
     private String id;

@@ -1,8 +1,6 @@
 package com.medireportui.medireportui.proxies;
 
 import com.medireportui.medireportui.beans.NoteBean;
-import com.medireportui.medireportui.beans.PatientBean;
-import org.bson.types.ObjectId;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
