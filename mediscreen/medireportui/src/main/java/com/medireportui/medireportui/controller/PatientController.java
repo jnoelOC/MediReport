@@ -4,6 +4,7 @@ package com.medireportui.medireportui.controller;
 //import com.mediscreen.medinotes.model.Note;
 import com.medireportui.medireportui.beans.NoteBean;
 import com.medireportui.medireportui.beans.PatientBean;
+import com.medireportui.medireportui.proxies.MicroserviceDiseasesProxy;
 import com.medireportui.medireportui.proxies.MicroserviceNotesProxy;
 import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
 import org.slf4j.Logger;
@@ -28,9 +29,11 @@ public class PatientController {
     private final MicroservicePatientsProxy patientsProxy;
     private final MicroserviceNotesProxy notesProxy;
 
-    public PatientController(MicroservicePatientsProxy patientsProxy, MicroserviceNotesProxy notesProxy){
+    private final MicroserviceDiseasesProxy diseasesProxy;
+    public PatientController(MicroservicePatientsProxy patientsProxy, MicroserviceNotesProxy notesProxy, MicroserviceDiseasesProxy diseasesProxy){
         this.patientsProxy = patientsProxy;
         this.notesProxy = notesProxy;
+        this.diseasesProxy = diseasesProxy;
     }
 
 

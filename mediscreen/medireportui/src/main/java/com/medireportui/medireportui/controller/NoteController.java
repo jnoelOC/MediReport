@@ -2,6 +2,7 @@ package com.medireportui.medireportui.controller;
 
 import com.medireportui.medireportui.beans.NoteBean;
 import com.medireportui.medireportui.beans.PatientBean;
+import com.medireportui.medireportui.proxies.MicroserviceDiseasesProxy;
 import com.medireportui.medireportui.proxies.MicroserviceNotesProxy;
 import com.medireportui.medireportui.proxies.MicroservicePatientsProxy;
 import org.slf4j.Logger;
@@ -20,9 +21,13 @@ public class NoteController {
     private static Logger logger = LoggerFactory.getLogger(NoteController.class);
     private final MicroserviceNotesProxy notesProxy;
     private final MicroservicePatientsProxy patientsProxy;
-    public NoteController(MicroserviceNotesProxy notesProxy, MicroservicePatientsProxy patientsProxy){
+
+    private final MicroserviceDiseasesProxy diseasesProxy;
+
+    public NoteController(MicroserviceNotesProxy notesProxy, MicroservicePatientsProxy patientsProxy, MicroserviceDiseasesProxy diseasesProxy){
         this.notesProxy = notesProxy;
         this.patientsProxy = patientsProxy;
+        this.diseasesProxy = diseasesProxy;
     }
 
 

@@ -9,8 +9,23 @@ services:
     environment:
       SPRING.PATIENT.URL: medipatient:9190
       SPRING.NOTE.URL: medinotes:9290
+      SPRING.REPORT.URL: medireport:9390
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - medipatient
+      - medinotes
+      - medireport
+
+  medireport:
+    image: medireport
+    container_name : medireport
+    build: ./medireport/
+    ports:
+      - "9390:9390"
+    environment:
+      SPRING.PATIENT.URL: medipatient:9190
+      SPRING.NOTE.URL: medinotes:9290
     depends_on:
       - medipatient
       - medinotes
