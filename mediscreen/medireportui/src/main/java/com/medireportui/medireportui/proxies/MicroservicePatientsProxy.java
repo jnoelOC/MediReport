@@ -26,7 +26,7 @@ public interface MicroservicePatientsProxy {
 
 
     @GetMapping( value = "/patient/update")
-    PatientBean modifierUnPatientGet(@RequestParam int id);
+    PatientBean modifierUnPatientGet(@RequestParam("id") int id);
 
     @PutMapping( value = "/patient/update")
     PatientBean modifierUnPatient(@RequestBody PatientBean patient);

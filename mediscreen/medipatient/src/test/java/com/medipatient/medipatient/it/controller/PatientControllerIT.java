@@ -147,13 +147,16 @@ public class PatientControllerIT {
         Patient p2 = new Patient(1, "Marylin", "Monroe", LocalDate.of(1932,6,12)
                 , "F","123 Fame st. Los Angeles", "0123456789");
         p1 = Optional.of(p2);
+        List<Patient> ls = new ArrayList<>();
+        ls.add(p2);
+        when(patientService.findAll()).thenReturn(ls);
         when(patientService.findById(any(Integer.class))).thenReturn(p1);
 
         // ACT and ASSERT
         mockMvc.perform(MockMvcRequestBuilders.get("/patient/update")
                         .param("id","1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstname").value("Marylin"))

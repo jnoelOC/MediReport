@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DiseaseService {
@@ -21,46 +21,48 @@ public class DiseaseService {
         return LocalDate.now().minusYears(dateOfBirth.getYear()).getYear();
     }
 
-    private Integer findNbOfTrigger(String[] triggers, String noteContent) {
-        int numbreOfTriggers = 0;
+    private Set<String> findTrigger(String[] triggers, String noteContent) {
+        Set<String> foundTriggers = new HashSet<>();
         for (String trigger : triggers) {
             if (noteContent.contains(trigger)) {
-                numbreOfTriggers += 1;
+                foundTriggers.add(trigger);
             }
         }
-        return numbreOfTriggers;
+        return foundTriggers;
     }
 
     public Disease.RiskLevel getRiskLevel(List<NoteBean> notes, PatientBean patient) {
         Disease.RiskLevel result = null;
+        Set<String> foundAllTriggers = new HashSet<>();
         int nbOfTrigger = 0;
+        int age = 0;
         String[] wantedTriggers = disease.getTriggers();
 
         for(NoteBean oneNote : notes){
-            nbOfTrigger += findNbOfTrigger(wantedTriggers, oneNote.getNote());
+            foundAllTriggers.addAll(findTrigger(wantedTriggers, oneNote.getNote()));
         }
 
-        if(nbOfTrigger == 0) { result = Disease.RiskLevel.NONE; }
-        else if(nbOfTrigger == 2 && (calculateAge(patient.getDob()) > 30)) {
+        nbOfTrigger = foundAllTriggers.size();
+        age = calculateAge(patient.getDob());
+
+        if(nbOfTrigger == 0 || nbOfTrigger == 1) { result = Disease.RiskLevel.NONE; }
+        else if(nbOfTrigger == 2 && (age > 30)) {
             result = Disease.RiskLevel.BORDERLINE;
-        }else if(nbOfTrigger == 3 && (calculateAge(patient.getDob()) <= 30)
-                && Objects.equals(patient.getSex(), "M")) {
+        }else if(nbOfTrigger == 3 && (age <= 30) && Objects.equals(patient.getSex(), "M")) {
             result = Disease.RiskLevel.IN_DANGER;
-        }else if(nbOfTrigger == 4 && (calculateAge(patient.getDob()) <= 30)
-                && Objects.equals(patient.getSex(), "F")) {
+        }else if(nbOfTrigger == 4 && (age <= 30) && Objects.equals(patient.getSex(), "F")) {
             result = Disease.RiskLevel.IN_DANGER;
-        }else if(nbOfTrigger == 6 && (calculateAge(patient.getDob()) > 30)) {
+        }else if(nbOfTrigger == 6 && (age > 30)) {
             result = Disease.RiskLevel.IN_DANGER;
-        }else if(nbOfTrigger == 5 && (calculateAge(patient.getDob()) <= 30)
-                && Objects.equals(patient.getSex(), "M")) {
+        }else if(nbOfTrigger == 5 && (age <= 30) && Objects.equals(patient.getSex(), "M")) {
             result = Disease.RiskLevel.EARLY_ONSET;
-        }else if(nbOfTrigger == 7 && (calculateAge(patient.getDob()) <= 30)
-                && Objects.equals(patient.getSex(), "F")) {
+        }else if(nbOfTrigger == 7 && (age <= 30) && Objects.equals(patient.getSex(), "F")) {
             result = Disease.RiskLevel.EARLY_ONSET;
-        }else if(nbOfTrigger >= 8 && (calculateAge(patient.getDob()) > 30)) {
+        }else if(nbOfTrigger >= 8 && (age > 30)) {
             result = Disease.RiskLevel.EARLY_ONSET;
         }
 
+        if(!notes.isEmpty() && null==result) {result = Disease.RiskLevel.NONE;}
         disease.setRiskLevel(result);
 
         return result;

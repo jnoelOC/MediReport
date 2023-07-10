@@ -28,7 +28,7 @@ public class NoteController {
         List<Note> notes = noteService.findAll();
 
         if(notes.isEmpty()){
-            logger.error("Erreur dans listerToutesLesNotes de medinotes : status Non trouvé.");
+            logger.error("ListerToutesLesNotes de medinotes : Non trouvées.");
         }
         else{
             logger.info("status notes trouvées.");
@@ -36,14 +36,14 @@ public class NoteController {
         return notes;
     }
 
-    @GetMapping("/note/listby")
-    public List<Note> listerToutesLesNotesParPatient(@RequestParam("idPatient") Integer idPatient) {
+    @GetMapping("/note/listbypat")
+    public List<Note> listerToutesLesNotesParPatient(@RequestParam("id") int idPatient) {
         logger.info("dans la méthode listerToutesLesNotesParPatient de medinotes");
 
         List<Note> notes = noteService.listerLesNotesParPatient(idPatient);
 
         if(notes.isEmpty()){
-            logger.error("Erreur dans listerToutesLesNotes de medinotes : status Non trouvé.");
+            logger.error("ListerToutesLesNotes de medinotes par patient : Non trouvées.");
         }
         else{
             logger.info("status notes trouvées.");

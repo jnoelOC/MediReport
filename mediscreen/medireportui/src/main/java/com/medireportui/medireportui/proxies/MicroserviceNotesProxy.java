@@ -11,17 +11,11 @@ import java.util.List;
 @FeignClient(name = "microservice-notes", url = "${SPRING.NOTE.URL}")
 public interface MicroserviceNotesProxy {
 
-/*
-    @GetMapping(value = "/notes")
-    List<NoteBean> listerLesNotes();
-*/
-
-    @GetMapping(value = "/note/listby")
-    List<NoteBean> listerLesNotesParPatient(@RequestParam int idPatient);
+    @GetMapping(value = "/note/listbypat")
+    List<NoteBean> listerLesNotesParPatient(@RequestParam("id") int idPatient);
 
     @PostMapping(path = "/note/add")
     NoteBean ajouterUneNote(@RequestBody NoteBean note);
-
 
     @GetMapping( value = "/note/update")
     NoteBean modifierUneNoteGet(@RequestParam String id);

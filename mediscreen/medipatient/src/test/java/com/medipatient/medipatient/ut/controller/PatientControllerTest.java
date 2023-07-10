@@ -164,16 +164,20 @@ class PatientControllerTest {
         Patient p2 = new Patient(1, "Marylin", "Monroe", LocalDate.of(1932,6,12)
                 , "F","123 Fame st. Los Angeles", "0123456789");
         p1 = Optional.of(p2);
-
+        List<Patient> ls = new ArrayList<>();
+        ls.add(p2);
         int id = 1;
+        when(patientService.findAll()).thenReturn(ls);
         when(patientService.findById(any(Integer.class))).thenReturn(p1);
 
         // ACT
-        ResponseEntity<Patient> result = patientController.modifierUnPatientGet(id);
+        //ResponseEntity<Patient> result = patientController.modifierUnPatientGet(id);
+        Patient result = patientController.modifierUnPatientGet(id);
 
         // ASSERT
-        Assertions.assertEquals(HttpStatus.FOUND, result.getStatusCode());
-        Assertions.assertEquals(p1.get(), result.getBody());
+        //Assertions.assertEquals(HttpStatus.FOUND, result.getStatusCode());
+        //Assertions.assertEquals(p1.get(), result.getBody());
+        Assertions.assertEquals(p1.get().getId(), result.getId());
 
     }
 
@@ -190,11 +194,13 @@ class PatientControllerTest {
         when(patientService.findById(any(Integer.class))).thenReturn(null);
 
         // ACT
-        ResponseEntity<Patient> result = patientController.modifierUnPatientGet(id);
+        //ResponseEntity<Patient> result = patientController.modifierUnPatientGet(id);
+        Patient result = patientController.modifierUnPatientGet(id);
 
         // ASSERT
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
-        Assertions.assertEquals(null, result.getBody());
+        //Assertions.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        //Assertions.assertEquals(null, result.getBody());
+        Assertions.assertNull(result);
     }
 
     @Test

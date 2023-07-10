@@ -31,34 +31,32 @@ public class DiseaseController {
         this.patientsProxy = patientsProxy;
     }
 
-    @GetMapping("/report/getrisklevel")
+    @GetMapping("/report/getrisklevelforpatient")
 //    public String listOfNotes(Model model, @RequestParam(name = "notes") List<NoteBean> notes, @RequestParam(name = "patient") PatientBean patient) {
-    public Disease.RiskLevel reportRiskLevelOfNotes(Model model, @RequestParam int idPatient) {
+    public Disease.RiskLevel reportRiskLevelOfNotes(@RequestParam("idPatient") int idPatient, Model model) {
         logger.info("Je suis dans listOfNotes de medireport");
-        Disease.RiskLevel rl = null;
-                PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
+        Disease.RiskLevel riskLevel = null;
+        PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
         List<NoteBean> notes = notesProxy.listerLesNotesParPatient(idPatient);
 
         if (null == notes || notes.isEmpty()){
             logger.info("liste des notes null ou vide !");
-            model.addAttribute("errorMsg", "This list is empty.");
+            model.addAttribute("errorMsg", "This list of Notes is empty.");
         }
         else{
             logger.info("notes trouvées.");
             model.addAttribute("patient", patient);
-            rl = diseaseService.getRiskLevel(notes, patient);
+            riskLevel = diseaseService.getRiskLevel(notes, patient);
 
-            if(null != rl) {
-//                logger.info("Le niveau de risque est : {} dans medireport.", rl);
-                model.addAttribute("errorMsg", rl.name());
+            if(null != riskLevel) {
+                logger.info("Le niveau de risque est : {} dans medireport.", riskLevel);
+                model.addAttribute("errorMsg", riskLevel.name());
             }
             else {
-                model.addAttribute("errorMsg", "Risk level is null.");
+                model.addAttribute("errorMsg", null);
             }
-
         }
-//        return "/report/list";
-        return rl;
+        return riskLevel;
     }
 
 }

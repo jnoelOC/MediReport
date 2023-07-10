@@ -31,21 +31,24 @@ public class DiseaseController {
     }
 
     @GetMapping(value = "/report/getrisklevelforpatient")
-    public String getRiskLevelGet(Model model, @RequestParam int idPatient){
+    public String getRiskLevelGet(Model model, @RequestParam("idPatient") int idPatient){
+        logger.info("Je suis dans getRiskLevelGet.");
 
         List<NoteBean> notes = notesProxy.listerLesNotesParPatient(idPatient);
         PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
 
-        DiseaseBean.RiskLevel rl = diseasesProxy.getRiskLevel(idPatient);
-//        logger.info("Le niveau de risque est : {} dans medireportui.", rl.name());
-        if(null != rl){
-            model.addAttribute("errorMsg", rl.name());
+        DiseaseBean.RiskLevel riskLevel = diseasesProxy.getRiskLevel(idPatient);
+
+        if(null != riskLevel) {
+            logger.info("Le niveau de risque est : {} dans medireport.", riskLevel.name());
+            model.addAttribute("errorMsg", riskLevel.name());
         }
         else {
-            model.addAttribute("errorMsg", "Risk level is null.");
+            model.addAttribute("errorMsg", null);
         }
-        model.addAttribute("patient", patient);
 
+        model.addAttribute("patient", patient);
+        logger.info("Je sors de getRiskLevelGet.");
         return "report/list";
     }
 

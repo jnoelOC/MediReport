@@ -30,21 +30,27 @@ public class NoteController {
         this.diseasesProxy = diseasesProxy;
     }
 
-
-    @GetMapping("/note/listby")
-    public String listOfNotes(Model model, @RequestParam int idPatient) {
-        logger.info("Je suis dans listOfNotes de medireportui");
+    //    @GetMapping("/note/listby")
+    @GetMapping("/note/listbypat")
+    public String listOfNotesByPat(@RequestParam("id") int idPatient, Model model) {
+        logger.info("Je suis dans listOfNotesByPatient de medireportui");
         List<NoteBean> notes =  notesProxy.listerLesNotesParPatient(idPatient);
 
+        PatientBean patient = patientsProxy.recupererUnPatient(idPatient);
         if (null == notes || notes.isEmpty()){
             logger.info("liste des notes null ou vide !");
             model.addAttribute("errorMsg", "This list is empty.");
         }
         else{
             logger.info("status notes trouvées.");
+            model.addAttribute("errorMsg", "");
             model.addAttribute("notes", notes);
+
         }
-        return "/note/listby";
+        model.addAttribute("patient", patient);
+        logger.info("Je sors de listOfNotesByPatient de medireportui.");
+
+        return "note/list";
     }
 
 
@@ -92,7 +98,7 @@ public class NoteController {
 
         List<NoteBean> notes =  notesProxy.listerLesNotesParPatient(idPatient);
         model.addAttribute("notes", notes);
-        return "/note/listby";
+        return "note/list";
     }
 
 
@@ -142,7 +148,7 @@ public class NoteController {
 
         List<NoteBean> notes =  notesProxy.listerLesNotesParPatient(idPatient);
         model.addAttribute("notes", notes);
-        return "note/listby";
+        return "note/list";
     }
 
     @GetMapping("/note/delete")
@@ -156,7 +162,7 @@ public class NoteController {
 
         List<NoteBean> notes =  notesProxy.listerLesNotesParPatient(idPatient);
         model.addAttribute("notes", notes);
-        return "note/listby";
+        return "note/list";
     }
 
 }

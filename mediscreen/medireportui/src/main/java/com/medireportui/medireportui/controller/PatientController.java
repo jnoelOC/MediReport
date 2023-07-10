@@ -63,7 +63,7 @@ public class PatientController {
         return "patient/list";
     }
 
-    @GetMapping("/patient/listby/{id}")
+    @GetMapping("/patient/note/listby/{id}")
     public String listOfNotesByPatient(Model model, @PathVariable("id") int idPatient) {
         logger.info("Je suis dans listOfNotesByPatient de medireportui");
 
@@ -80,7 +80,9 @@ public class PatientController {
         }
         model.addAttribute("patient", patient);
         model.addAttribute("notes", notes);
-        return "note/listby";
+        logger.info("Je suis dans listOfNotesByPatient de medireportui juste avant /note/list");
+
+        return "redirect:/note/list";
     }
 
     @GetMapping("/patient/get")
@@ -184,12 +186,14 @@ public class PatientController {
         return "redirect:/patient/list";
     }
 
-    @GetMapping("/patient/update/{id}")
-    public String updatePatientGet(@PathVariable("id") int id, Model model) {
+//    @GetMapping("/patient/update/{id}")
+//    public String updatePatientGet(@PathVariable("id") int id, Model model) {
+@GetMapping("/patient/update")
+public String updatePatientGet(@RequestParam("id") int id, Model model) {
         logger.info("Je suis dans updatePatientGet de medireportui");
         PatientBean p = patientsProxy.modifierUnPatientGet(id);
         model.addAttribute("patient", p);
-
+        logger.info("Je sors de updatePatientGet de medireportui");
          return "patient/update";
     }
 

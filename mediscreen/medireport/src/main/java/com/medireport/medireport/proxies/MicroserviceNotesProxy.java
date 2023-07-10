@@ -16,8 +16,8 @@ public interface MicroserviceNotesProxy {
     List<NoteBean> listerLesNotes();
 */
 
-    @GetMapping(value = "/note/listby")
-    List<NoteBean> listerLesNotesParPatient(@RequestParam int idPatient);
+    @GetMapping(value = "/note/listbypat")
+    List<NoteBean> listerLesNotesParPatient(@RequestParam("id") int idPatient);
 
 
     /*

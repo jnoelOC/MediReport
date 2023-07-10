@@ -120,15 +120,25 @@ public class PatientController {
     }
 
     @GetMapping(value = "/patient/update")
-    public ResponseEntity<Patient> modifierUnPatientGet(@RequestParam int id) {
+//    public ResponseEntity<Patient> modifierUnPatientGet(@RequestParam("id") int id) {
+    public Patient modifierUnPatientGet(@RequestParam("id") int id) {
+
         logger.info("dans la méthode modifierUnPatientGet");
 
+        if(id<=0 || id > patientService.findAll().size()){
+            return null;
+        }
+
         Optional<Patient> patient = patientService.findById(id);
-        if(patient == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if(patient.isEmpty()) {
+            logger.info("dans la méthode modifierUnPatientGet avec patient à null");
+           //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
         else {
-            return new ResponseEntity<>(patient.get(), HttpStatus.FOUND);
+            logger.info("dans la méthode modifierUnPatientGet avec une valeur à patient");
+            //return new ResponseEntity<>(patient.get(), HttpStatus.FOUND);
+            return patient.get();
         }
     }
 
