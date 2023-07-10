@@ -39,7 +39,7 @@ public class DiseaseService {
         String[] wantedTriggers = disease.getTriggers();
 
         for(NoteBean oneNote : notes){
-            foundAllTriggers.addAll(findTrigger(wantedTriggers, oneNote.getNote()));
+            foundAllTriggers.addAll(findTrigger(wantedTriggers, oneNote.getNote().toLowerCase(Locale.ROOT)));
         }
 
         nbOfTrigger = foundAllTriggers.size();

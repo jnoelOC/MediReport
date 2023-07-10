@@ -81,8 +81,8 @@ public class PatientController {
         model.addAttribute("patient", patient);
         model.addAttribute("notes", notes);
         logger.info("Je suis dans listOfNotesByPatient de medireportui juste avant /note/list");
-
-        return "redirect:/note/list";
+        return "note/list";
+        //return "redirect:/note/list";
     }
 
     @GetMapping("/patient/get")
